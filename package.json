@@ -1,0 +1,14 @@
+{
+    "name": "metamask-dapp",
+    "version": "1.0.0",
+    "description": "A simple DApp using MetaMask integration",
+    "main": "api.js",
+    "scripts": {
+      "start": "lite-server"
+    },
+    "dependencies": {},
+    "devDependencies": {
+      "lite-server": "^2.6.1"
+    }
+  }
+  

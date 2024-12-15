@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Stocks - Groww Clone</title>
+  <link rel="stylesheet" href="website.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="logo">Groww Clone</div>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Stocks</a></li>
+      <li><a href="login.html" >Login</a>
+      </li>
+    </ul>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <h1>Explore Stocks</h1>
+    <div class="stocks-container">
+      <!-- Stock Cards -->
+      <div class="stock-card">
+        <h2>Apple Inc. (AAPL)</h2>
+        <p>Price: $172.38</p>
+        <p class="positive">+1.24%</p>
+        <button class="buy-button">Buy</button>
+      </div>
+      <div class="stock-card">
+        <h2>Tesla Inc. (TSLA)</h2>
+        <p>Price: $674.23</p>
+        <p class="negative">-2.16%</p>
+        <button class="buy-button">Buy</button>
+      </div>
+      <div class="stock-card">
+        <h2>Amazon.com (AMZN)</h2>
+        <p>Price: $123.45</p>
+        <p class="positive">+0.82%</p>
+        <button class="buy-button">Buy</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="server.js"></script>
+  <script src="api.js"></script>
+</body>
+</html>

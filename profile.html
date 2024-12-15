@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MetaMask Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    button {
+      margin: 0.5rem 0;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 1rem;
+      background: #f8f8f8;
+      border: 1px solid #ccc;
+      padding: 1rem;
+      white-space: pre-wrap;
+      min-height: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Test MetaMask API</h1>
+  <p>This example demonstrates basic MetaMask interactions: checking for MetaMask provider, connecting, and retrieving account balance.</p>
+
+  <button id="connectBtn">Connect to MetaMask</button>
+  <br/>
+  <button id="getBalanceBtn">Get ETH Balance</button>
+  <br/>
+  <div id="result"></div>
+
+  <script>
+    const connectBtn = document.getElementById('connectBtn');
+    const getBalanceBtn = document.getElementById('getBalanceBtn');
+    const resultDiv = document.getElementById('result');
+
+    let userAccount;
+
+    // Check if MetaMask (or any injected Ethereum provider) is installed
+    function checkMetaMask() {
+      if (typeof window.ethereum !== 'undefined') {
+        logResult('MetaMask is installed!');
+        return true;
+      } else {
+        logResult('MetaMask is not installed. Please install it from https://metamask.io/');
+        return false;
+      }
+    }
+
+    function logResult(message) {
+      console.log(message);
+      resultDiv.textContent = message;
+    }
+
+    // Request account access
+    async function connectMetaMask() {
+      if (!checkMetaMask()) return;
+
+      try {
+        const accounts = await window.ethereum.request({
+          method: 'eth_requestAccounts',
+        });
+        userAccount = accounts[0];
+        logResult(`Connected Account: ${userAccount}`);
+      } catch (error) {
+        logResult(`Failed to connect MetaMask: ${error.message}`);
+      }
+    }
+
+    // Retrieve ETH balance of the connected account
+    async function getBalance() {
+      if (!userAccount) {
+        logResult('No account connected. Please connect MetaMask first.');
+        return;
+      }
+
+      try {
+        const balanceHex = await window.ethereum.request({
+          method: 'eth_getBalance',
+          params: [userAccount, 'latest'],
+        });
+
+        // Convert hex balance to decimal, then to Ether
+        const balanceWei = parseInt(balanceHex, 16);
+        // 1 ETH = 1e18 Wei
+        const balanceEth = balanceWei / 1e18;
+        logResult(`ETH Balance: ${balanceEth} ETH`);
+      } catch (error) {
+        logResult(`Failed to retrieve balance: ${error.message}`);
+      }
+    }
+
+    // Attach event listeners
+    connectBtn.addEventListener('click', connectMetaMask);
+    getBalanceBtn.addEventListener('click', getBalance);
+  </script>
+</body>
+</html>
