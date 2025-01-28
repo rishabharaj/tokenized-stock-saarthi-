@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM GPT Chat App</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@huggingface/inference@1.1.0/dist/hf-inference.js"></script>
+</head>
+<body>
+  <div id="app">
+    <section class="section">
+      <div class="container">
+        <h1 class="title">LLM GPT Chat App</h1>
+        <div class="columns">
+          <div class="column is-12">
+            <div class="box">
+              <div class="message" v-for="(message, index) in messages" :key="index">
+                <span class="tag is-info" v-if="message.sender === 'user'">You</span>
+                <span class="tag is-warning" v-if="message.sender === 'gpt'">GPT</span>
+                <span>{{ message.text }}</span>
+              </div>
+              <div class="field">
+                <label class="label">Message</label>
+                <div class="control">
+                  <input class="input" type="text" v-model="newMessage">
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <button class="button is-primary" @click="sendMessage">Send Message</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const hf = new HfInference('YOUR_API_KEY');
+    new Vue({
+      el: '#app',
+      data: {
+        messages: [],
+        newMessage: ''
+      },
+      methods: {
+        async sendMessage() {
+          const message = {
+            sender: 'user',
+            text: this.newMessage
+          };
+          this.messages.push(message);
+          this.newMessage = '';
+          const response = await hf.chatCompletionStream({
+            model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+            messages: [
+              { role: 'user', content: message.text }
+            ],
+            max_tokens: 500,
+            temperature: Math.random() * 0.4 + 0.1
+          });
+          let gptMessage = '';
+          for await (const chunk of response) {
+            if (chunk.choices && chunk.choices.length > 0) {
+              gptMessage += chunk.choices[0].delta.content || '';
+            }
+          }
+          this.messages.push({
+            sender: 'gpt',
+            text: gptMessage.trim()
+          });
+        }
+      }
+    });
+  </script>
+   <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 Stock Saarthi. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a> | 
+      <a href="#">Terms of Service</a> | 
+      <a href="contact.html">Contact Us</a>
+    </div>
+  </footer>
+</body>
+</html>
