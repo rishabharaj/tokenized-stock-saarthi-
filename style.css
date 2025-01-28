@@ -25,4 +25,19 @@ body {
     font-weight: bold;
     color: #444;
   }
-  
+    /* Footer */
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    clear: both;
+  }
+  .footer-links a {
+    color: #fff;
+    margin: 0 0.5rem;
+    text-decoration: none;
+  }
