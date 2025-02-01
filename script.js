@@ -1,6 +1,39 @@
 const stockSymbols = ['AAPL', 'TSLA', 'AMZN']; // Add your desired stock symbols
 const stocksContainer = document.querySelector('.stocks-container');
 
+ // Theme Toggle Script
+    const themeToggle = document.getElementById('theme-toggle');
+
+    // Check for saved theme in localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.body.className = savedTheme;
+      updateButtonText();
+    }
+
+    // Add click event listener to toggle button
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      document.body.classList.toggle('light-mode');
+
+      // Save the current theme in localStorage
+      const currentTheme = document.body.className;
+      localStorage.setItem('theme', currentTheme);
+
+      updateButtonText();
+    });
+
+    // Update button text based on current theme
+    function updateButtonText() {
+      if (document.body.classList.contains('dark-mode')) {
+        themeToggle.textContent = '☀️ Light Mode';
+        themeToggle.classList.add('dark');
+      } else {
+        themeToggle.textContent = '🌙 Dark Mode';
+        themeToggle.classList.remove('dark');
+      }
+    }
+
 // Fetch data from backend API
 const fetchStockData = async (symbol) => {
   try {
