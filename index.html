@@ -28,7 +28,41 @@
       color: #ffffff;
     }
 
-   
+    /* Navigation Bar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #333;
+      color: #fff;
+      padding: 1rem;
+      position: sticky; /* Makes the navbar sticky */
+      top: 0; /* Sticks to the top */
+      z-index: 1000; /* Ensures it stays above other content */
+    }
+
+    .navbar .logo {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar ul li {
+      margin-left: 1.2rem;
+    }
+
+    .navbar ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.5rem;
+    }
+
     /* Toggle button styles */
     #theme-toggle {
       padding: 10px 20px;
@@ -46,6 +80,20 @@
       color: #fff;
     }
 
+    /* Footer */
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: auto; /* Pushes footer to the bottom */
+    }
+
+    .footer-links a {
+      color: #fff;
+      margin: 0 0.5rem;
+      text-decoration: none;
+    }
 
     /* Main Content */
     main {
