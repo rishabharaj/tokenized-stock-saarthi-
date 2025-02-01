@@ -222,6 +222,7 @@
       text-align: center;
       padding: 1rem;
       margin-top: auto; /* Pushes footer to the bottom */
+      width: 100%;
     }
 
     .footer-links a {
