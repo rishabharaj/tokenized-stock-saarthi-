@@ -41,7 +41,7 @@
   </div>
 
   <script>
-    const hf = new HfInference('YOUR_API_KEY');
+    const hf = new HfInference('AIzaSyBACDS_VDM-s9W077qfCRaQpnwIdnBcnaU');
     new Vue({
       el: '#app',
       data: {
@@ -57,7 +57,7 @@
           this.messages.push(message);
           this.newMessage = '';
           const response = await hf.chatCompletionStream({
-            model: 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+            model: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
             messages: [
               { role: 'user', content: message.text }
             ],
