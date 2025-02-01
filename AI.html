@@ -3,29 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LLM GPT Chat App</title>
+  <title>LLM AI Chat App</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@huggingface/inference@1.1.0/dist/hf-inference.js"></script>
 </head>
 <body>
   <div id="app">
     <section class="section">
       <div class="container">
-        <h1 class="title">LLM GPT Chat App</h1>
+        <h1 class="title">LLM AI Chat App</h1>
         <div class="columns">
           <div class="column is-12">
             <div class="box">
+              <!-- Messages Display Section -->
               <div class="message" v-for="(message, index) in messages" :key="index">
                 <span class="tag is-info" v-if="message.sender === 'user'">You</span>
-                <span class="tag is-warning" v-if="message.sender === 'gpt'">GPT</span>
+                <span class="tag is-warning" v-if="message.sender === 'rishabh'">Rishabh</span>
                 <span>{{ message.text }}</span>
               </div>
+
+              <!-- Input Section -->
               <div class="field">
                 <label class="label">Message</label>
                 <div class="control">
-                  <input class="input" type="text" v-model="newMessage">
+                  <input class="input" type="text" v-model="newMessage" @keyup.enter="sendMessage">
                 </div>
               </div>
               <div class="field">
@@ -41,7 +43,9 @@
   </div>
 
   <script>
-    const hf = new HfInference('AIzaSyBACDS_VDM-s9W077qfCRaQpnwIdnBcnaU');
+    const GOOGLE_API_KEY = 'AIzaSyBACDS_VDM-s9W077qfCRaQpnwIdnBcnaU'; // Yahan apna Google API key daalein
+    const GOOGLE_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent'; // Gemini API endpoint
+
     new Vue({
       el: '#app',
       data: {
@@ -50,42 +54,62 @@
       },
       methods: {
         async sendMessage() {
+          if (!this.newMessage.trim()) return; // Khali message ko ignore karein
+
           const message = {
             sender: 'user',
             text: this.newMessage
           };
           this.messages.push(message);
           this.newMessage = '';
-          const response = await hf.chatCompletionStream({
-            model: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
-            messages: [
-              { role: 'user', content: message.text }
-            ],
-            max_tokens: 500,
-            temperature: Math.random() * 0.4 + 0.1
-          });
-          let gptMessage = '';
-          for await (const chunk of response) {
-            if (chunk.choices && chunk.choices.length > 0) {
-              gptMessage += chunk.choices[0].delta.content || '';
-            }
+
+          try {
+            const response = await axios.post(
+              `${GOOGLE_API_URL}?key=${GOOGLE_API_KEY}`,
+              {
+                contents: [
+                  {
+                    parts: [
+                      {
+                        text: message.text
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              }
+            );
+
+            const rishabhMessage = response.data.candidates[0].content.parts[0].text;
+            this.messages.push({
+              sender: 'rishabh',
+              text: rishabhMessage.trim()
+            });
+          } catch (error) {
+            console.error('Error sending message:', error);
+            this.messages.push({
+              sender: 'rishabh',
+              text: 'Sorry, something went wrong!'
+            });
           }
-          this.messages.push({
-            sender: 'gpt',
-            text: gptMessage.trim()
-          });
         }
       }
     });
   </script>
-   <!-- Footer -->
-  <footer>
-    <p>&copy; 2024 Stock Saarthi. All rights reserved.</p>
-    <div class="footer-links">
-      <a href="#">Privacy Policy</a> | 
-      <a href="#">Terms of Service</a> | 
-      <a href="contact.html">Contact Us</a>
-    </div>
-  </footer>
+
+  <style>
+    /* Custom CSS for better message display */
+    .message {
+      margin-bottom: 1rem;
+    }
+    .tag {
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+  </style>
 </body>
 </html>
