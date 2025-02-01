@@ -6,44 +6,41 @@ body {
     color: #333;
   }
   
-  /* Navigation Bar */
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    padding: 10px 20px;
-    border-bottom: 1px solid #e0e0e0;
-  }
-  
-  .navbar .logo {
-    font-size: 1.8em;
-    font-weight: bold;
-    color: #0f9d58;
-  }
-  
-  .navbar ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .navbar ul li {
-    display: inline;
-  }
-  
-  .navbar ul li a {
-    text-decoration: none;
-    color: #5f6368;
-    font-size: 1em;
-    font-weight: 500;
-  }
-  
-  .navbar ul li a:hover {
-    color: #0f9d58;
-  }
+   /* Navigation Bar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #333;
+      color: #fff;
+      padding: 1rem;
+      position: sticky; /* Makes the navbar sticky */
+      top: 0; /* Sticks to the top */
+      z-index: 1000; /* Ensures it stays above other content */
+    }
+
+    .navbar .logo {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar ul li {
+      margin-left: 1.2rem;
+    }
+
+    .navbar ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.5rem;
+    }
+
   
   /* Main Content */
   main {
