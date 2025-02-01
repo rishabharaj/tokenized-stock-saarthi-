@@ -28,12 +28,44 @@
       color: #ffffff;
     }
 
+    /* Navigation Bar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #333;
+      color: #fff;
+      padding: 1rem;
+      position: sticky; /* Makes the navbar sticky */
+      top: 0; /* Sticks to the top */
+      z-index: 1000; /* Ensures it stays above other content */
+    }
+
+    .navbar .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar ul li {
+      margin-left: 1rem;
+    }
+
+    .navbar ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
     /* Toggle button styles */
     #theme-toggle {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      padding: 10px 0px;
+      padding: 10px 20px;
       cursor: pointer;
       border: none;
       border-radius: 20px;
@@ -68,12 +100,78 @@
       flex: 1; /* Takes up remaining space */
       padding: 20px;
     }
+
+    /* Stock Cards */
+    .stocks-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .stock-card {
+      background: #f9f9f9;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .stock-card h2 {
+      margin: 0 0 0.5rem 0;
+    }
+
+    .stock-card p {
+      margin: 0.25rem 0;
+    }
+
+    .positive {
+      color: green;
+    }
+
+    .negative {
+      color: red;
+    }
+
+    .buy-button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .buy-button:hover {
+      background: #0056b3;
+    }
+
+    /* Mutual Funds Section */
+    .funds-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .fund-card {
+      background: #f9f9f9;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .fund-card h2 {
+      margin: 0 0 0.5rem 0;
+    }
+
+    .fund-card p {
+      margin: 0.25rem 0;
+    }
+
+    .investment-summary {
+      margin-top: 2rem;
+    }
   </style>
 </head>
 <body class="light-mode">
-  <!-- Theme Toggle Button -->
-  <button id="theme-toggle">🌙 Dark Mode</button>
-
   <!-- Navigation Bar -->
   <header class="navbar">
     <div class="logo">STOCK SAARTHI</div>
@@ -85,6 +183,8 @@
       <li><a href="AI.html">AI Assitsance</a></li>
       <li><a href="profile.html">wallet</a></li>
     </ul>
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle">🌙 Dark Mode</button>
   </header>
 
   <!-- Main Content -->
