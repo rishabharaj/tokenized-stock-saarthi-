@@ -134,7 +134,24 @@
   .buy-button:active {
     background-color: #085b39;
   }
-  
+
+ /* Toggle button styles */
+    #theme-toggle {
+      padding: 10px 20px;
+      cursor: pointer;
+      border: none;
+      border-radius: 20px;
+      background-color: #f0f0f0;
+      color: #000;
+      font-size: 16px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    #theme-toggle.dark {
+      background-color: #ded5d5;
+      color: #fff;
+    }
+
  /* Footer */
     footer {
       background: #333;
