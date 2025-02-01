@@ -6,6 +6,28 @@
   <title>Explore Stocks - STOCK SAARTHI</title>
   <link rel="stylesheet" href="website.css">
   <style>
+     /* Basic styling */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* Ensures the body takes at least the full viewport height */
+    }
+
+    /* Default Light Mode */
+    body.light-mode {
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    /* Dark Mode */
+    body.dark-mode {
+      background-color: #0b0a0a;
+      color: #ffffff;
+    }
+
    
     /* Navigation Bar */
     .navbar {
