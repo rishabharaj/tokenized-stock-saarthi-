@@ -43,11 +43,13 @@
           <div class="column is-12">
             <div class="box">
               <!-- Messages Display Section -->
-              <div class="message" v-for="(message, index) in messages" :key="index">
-                <span class="tag is-info" v-if="message.sender === 'user'">You</span>
-                <span class="tag is-warning" v-if="message.sender === 'rishabh'">Rishabh</span>
-                <span>{{ message.text }}</span>
-              </div>
+             <div class="message-container">
+  <div class="message" v-for="(message, index) in messages" :key="index">
+    <span class="tag is-info" v-if="message.sender === 'user'">You</span>
+    <span class="tag is-warning" v-if="message.sender === 'rishabh'">Rishabh</span>
+    <span>{{ message.text }}</span>
+  </div>
+</div>
 
               <!-- Input Section -->
               <div class="field">
@@ -77,6 +79,15 @@
     </div>
   </footer>
   <style>
+    .field .control input {
+  font-size: 16px;
+  padding: 10px;
+}
+.button {
+  width: 100%;
+  font-size: 16px;
+}
+
     
     @media screen and (max-width: 768px) {
   .column {
@@ -249,6 +260,11 @@
       background-color: #555;
       color: #ffffff;
     }
+     .message-container {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
   </style>
   <script src = "script.js"></script>
 </body>
