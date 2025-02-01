@@ -12,19 +12,28 @@
 </head>
 <body>
   <!-- Navigation Bar -->
-<header class="navbar">
-  <div class="logo">STOCK SAARTHI</div>
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="#">Stocks</a></li>
-    <li><a href="login.html">Login</a></li>
-    <li><a href="#mutual-funds-section">Mutual fund</a></li>
-    <li><a href="AI.html">AI Assistance</a></li>
-    <li><a href="profile.html">Wallet</a></li>
-  </ul>
-  <!-- Theme Toggle Button -->
-  <button id="theme-toggle">🌙 Dark Mode</button>
-</header>
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="#">STOCK SAARTHI</a>
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navMenu" class="navbar-menu">
+    <div class="navbar-end">
+      <a class="navbar-item" href="index.html">Home</a>
+      <a class="navbar-item" href="#">Stocks</a>
+      <a class="navbar-item" href="login.html">Login</a>
+      <a class="navbar-item" href="#mutual-funds-section">Mutual fund</a>
+      <a class="navbar-item" href="AI.html">AI Assistance</a>
+      <a class="navbar-item" href="profile.html">Wallet</a>
+      <a class="navbar-item button is-dark" id="theme-toggle">🌙 Dark Mode</a>
+    </div>
+  </div>
+</nav>
+
 
   <div id="app">
     <section class="section">
