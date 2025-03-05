@@ -53,6 +53,61 @@
             }
         }
     </style>
+    <style>
+        /* Critical mobile navigation styles */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                background: inherit;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+                z-index: 100;
+            }
+            
+            .navbar-menu.active {
+                display: flex;
+            }
+            
+            .navbar-item {
+                padding: 0.75rem 0;
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+    <style>
+        /* Update navbar styles to align center-left */
+        .navbar-menu {
+            justify-content: flex-start;
+        }
+        
+        .navbar-item {
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-item i {
+            margin-right: 8px;
+        }
+        
+        /* Ensure mobile menu keeps left alignment */
+        @media (max-width: 768px) {
+            .navbar-menu.active {
+                align-items: flex-start;
+            }
+            
+            .navbar-item {
+                text-align: left;
+                padding-left: 2rem; /* Adds more left padding on mobile */
+            }
+        }
+    </style>
 </head>
 <body class="light-mode">
     <!-- Navigation Bar -->
@@ -150,6 +205,79 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM fully loaded, initializing scripts");
+            
+            // Get references to DOM elements
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = themeToggle ? themeToggle.querySelector('i') : null;
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const navbarMenu = document.querySelector('.navbar-menu');
+            
+            console.log("Mobile toggle button:", mobileToggle ? "Found" : "Not found");
+            console.log("Navbar menu:", navbarMenu ? "Found" : "Not found");
+            
+            // Mobile toggle functionality with debugging
+            if (mobileToggle && navbarMenu) {
+                mobileToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log("Mobile toggle clicked");
+                    
+                    // Toggle menu visibility
+                    navbarMenu.classList.toggle('active');
+                    
+                    // Toggle button icon
+                    const menuIcon = this.querySelector('i');
+                    if (menuIcon) {
+                        menuIcon.classList.toggle('fa-bars');
+                        menuIcon.classList.toggle('fa-times');
+                    }
+                    
+                    console.log("Menu active:", navbarMenu.classList.contains('active'));
+                });
+            }
+            
+            // Theme toggle functionality
+            if (themeToggle && themeIcon) {
+                // Check saved theme
+                const savedTheme = localStorage.getItem('theme') || 'light-mode';
+                document.body.className = savedTheme;
+                
+                if (document.body.classList.contains('dark-mode')) {
+                    themeIcon.className = 'fas fa-sun';
+                } else {
+                    themeIcon.className = 'fas fa-moon';
+                }
+                
+                // Theme toggle click handler
+                themeToggle.addEventListener('click', function() {
+                    document.body.classList.toggle('dark-mode');
+                    document.body.classList.toggle('light-mode');
+                    localStorage.setItem('theme', document.body.className);
+                    
+                    if (document.body.classList.contains('dark-mode')) {
+                        themeIcon.className = 'fas fa-sun';
+                    } else {
+                        themeIcon.className = 'fas fa-moon';
+                    }
+                });
+            }
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (navbarMenu && navbarMenu.classList.contains('active') && !e.target.closest('.navbar')) {
+                    navbarMenu.classList.remove('active');
+                    if (mobileToggle) {
+                        const menuIcon = mobileToggle.querySelector('i');
+                        if (menuIcon) {
+                            menuIcon.className = 'fas fa-bars';
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

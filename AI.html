@@ -302,6 +302,59 @@
         .dark-mode .footer-links a:hover {
             color: var(--secondary-color);
         }
+
+        /* Critical mobile navigation styles */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                background: inherit;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+                z-index: 100;
+            }
+            
+            .navbar-menu.active {
+                display: flex;
+            }
+            
+            .navbar-item {
+                padding: 0.75rem 0;
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* Update navbar styles to align center-left */
+        .navbar-menu {
+            justify-content: flex-start;
+        }
+        
+        .navbar-item {
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-item i {
+            margin-right: 8px;
+        }
+        
+        /* Ensure mobile menu keeps left alignment */
+        @media (max-width: 768px) {
+            .navbar-menu.active {
+                align-items: flex-start;
+            }
+            
+            .navbar-item {
+                text-align: left;
+                padding-left: 2rem; /* Adds more left padding on mobile */
+            }
+        }
     </style>
 </head>
 <body class="light-mode">
@@ -338,36 +391,36 @@
 
     <!-- Chat Application -->
     <div id="app">
-        <section class="section">
-            <div class="container">
-                <h1 class="title">AI Assistant</h1>
-                <div class="columns">
-                    <div class="column is-12">
-                        <div class="box">
-                            <div class="message-container">
-                                <div class="message" v-for="(message, index) in messages" :key="index">
-                                    <span class="tag is-info" v-if="message.sender === 'user'">You</span>
-                                    <span class="tag is-warning" v-if="message.sender === 'rishabh'">AI</span>
-                                    <span>{{ message.text }}</span>
-                                </div>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">AI Assistant</h1>
+            <div class="columns">
+                <div class="column is-12">
+                    <div class="box">
+                        <div class="message-container">
+                            <div class="message" v-for="(message, index) in messages" :key="index">
+                                <span class="tag is-info" v-if="message.sender === 'user'">You</span>
+                                <span class="tag is-warning" v-if="message.sender === 'rishabh'">Rishabh</span>
+                                <span>{{ message.text }}</span>
                             </div>
-                            <div class="field">
-                                <label class="label">Message</label>
-                                <div class="control">
-                                    <input class="input" type="text" v-model="newMessage" @keyup.enter="sendMessage" placeholder="Type your message...">
-                                </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Message</label>
+                            <div class="control">
+                                <input class="input" type="text" v-model="newMessage" @keyup.enter="sendMessage" placeholder="Type your message...">
                             </div>
-                            <div class="field">
-                                <div class="control">
-                                    <button class="button is-primary" @click="sendMessage">Send Message</button>
-                                </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-primary" @click="sendMessage">Send Message</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
+</div>
 
     <!-- Footer -->
     <footer>
@@ -378,143 +431,143 @@
             <a href="privacy.html">Privacy Policy</a>
             <a href="#">Terms of Service</a>
         </div>
+        <div class="social-links">
+            <a href="mailto:rishabharaj321@gmail.com" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-envelope"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/rishabharaj-sharma-57a7a8256" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://www.instagram.com/eclipsor_rishabh?igsh=dGM2NXJ0YWxzOGpy" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
     </footer>
 
     <!-- Scripts -->
-    <script src="script.js"></script>
     <script>
-        const GOOGLE_API_KEY = 'YOUR_API_KEY';
-        const GOOGLE_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
-
+        const geminiApiKey = 'AIzaSyCKhPC6zO7F-0hA2cvwIdpy1oU7V3wKJoU';
+        
         new Vue({
             el: '#app',
             data: {
                 messages: [],
-                newMessage: ''
+                newMessage: '',
+                errorMessage: ''
             },
             methods: {
                 async sendMessage() {
                     if (!this.newMessage.trim()) return;
-
+                    
                     const message = {
                         sender: 'user',
                         text: this.newMessage
                     };
                     this.messages.push(message);
                     this.newMessage = '';
-
+                    
+                    const thinkingIndex = this.messages.length;
+                    this.messages.push({
+                        sender: 'rishabh',
+                        text: 'Thinking...'
+                    });
+                    
                     try {
                         const response = await axios.post(
-                            `${GOOGLE_API_URL}?key=${GOOGLE_API_KEY}`,
+                            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`,
                             {
                                 contents: [{
-                                    parts: [{
-                                        text: message.text
-                                    }]
+                                    parts: [{ text: message.text }]
                                 }]
-                            },
-                            {
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                }
                             }
                         );
-
-                        const rishabhMessage = response.data.candidates[0].content.parts[0].text;
-                        this.messages.push({
-                            sender: 'rishabh',
-                            text: rishabhMessage.trim()
-                        });
+                        
+                        if (response.data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+                            let rishabhMessage = response.data.candidates[0].content.parts[0].text;
+                            this.messages.splice(thinkingIndex, 1, {
+                                sender: 'rishabh',
+                                text: rishabhMessage.trim()
+                            });
+                        } else {
+                            this.messages.splice(thinkingIndex, 1);
+                            this.messages.push({
+                                sender: 'rishabh',
+                                text: 'Sorry, I could not process your request at the moment.'
+                            });
+                        }
                     } catch (error) {
-                        console.error('Error sending message:', error);
+                        this.messages.splice(thinkingIndex, 1);
                         this.messages.push({
                             sender: 'rishabh',
-                            text: 'Sorry, something went wrong!'
+                            text: 'Sorry, I encountered an error while processing your request.'
                         });
                     }
                 }
             }
         });
-    </script>
-    <script>
-        // Mobile menu functionality
-        const mobileToggle = document.querySelector('.mobile-toggle');
-        const navbarMenu = document.querySelector('.navbar-menu');
+
+        // Theme Toggle Script - copied from index.html
         const themeToggle = document.getElementById('theme-toggle');
-        const icon = themeToggle.querySelector('i');
 
-        // Mobile menu toggle
-        mobileToggle.addEventListener('click', () => {
-            navbarMenu.classList.toggle('active');
-            const menuIcon = mobileToggle.querySelector('i');
-            menuIcon.classList.toggle('fa-bars');
-            menuIcon.classList.toggle('fa-times');
-        });
+        // Check for saved theme in localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.className = savedTheme;
+            updateButtonText();
+        }
 
-        // Theme toggle functionality
-        const savedTheme = localStorage.getItem('theme') || 'light-mode';
-        document.body.className = savedTheme;
-        updateThemeIcon();
-
+        // Add click event listener to toggle button
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
             document.body.classList.toggle('light-mode');
-            localStorage.setItem('theme', document.body.className);
-            updateThemeIcon();
+
+            // Save the current theme in localStorage
+            const currentTheme = document.body.className;
+            localStorage.setItem('theme', currentTheme);
+
+            updateButtonText();
         });
 
-        function updateThemeIcon() {
+        // Update button text based on current theme
+        function updateButtonText() {
             if (document.body.classList.contains('dark-mode')) {
-                icon.className = 'fas fa-sun';
+                themeToggle.textContent = '☀️ Light Mode';
+                themeToggle.classList.add('dark');
             } else {
-                icon.className = 'fas fa-moon';
+                themeToggle.textContent = '🌙 Dark Mode';
+                themeToggle.classList.remove('dark');
             }
         }
 
-        // Close menu when clicking outside
+        // Mobile Navigation Script
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const navbarMenu = document.querySelector('.navbar-menu');
+
+        mobileToggle.addEventListener('click', () => {
+            navbarMenu.classList.toggle('active');
+            const isExpanded = navbarMenu.classList.contains('active');
+            mobileToggle.setAttribute('aria-expanded', isExpanded);
+            
+            const icon = mobileToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.navbar') && navbarMenu.classList.contains('active')) {
                 navbarMenu.classList.remove('active');
+                mobileToggle.setAttribute('aria-expanded', false);
                 mobileToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
             }
         });
 
-        // Close menu on window resize
         window.addEventListener('resize', () => {
             if (window.innerWidth > 768 && navbarMenu.classList.contains('active')) {
                 navbarMenu.classList.remove('active');
+                mobileToggle.setAttribute('aria-expanded', false);
                 mobileToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
             }
         });
-    </script>
-    <script>
-        // Theme toggle functionality
-        document.addEventListener('DOMContentLoaded', () => {
-            const themeToggle = document.getElementById('theme-toggle');
-            const icon = themeToggle.querySelector('i');
-
-            // Check saved theme
-            const savedTheme = localStorage.getItem('theme') || 'light-mode';
-            document.body.className = savedTheme;
-            updateThemeIcon();
-
-            themeToggle.addEventListener('click', () => {
-                document.body.classList.toggle('dark-mode');
-                document.body.classList.toggle('light-mode');
-                localStorage.setItem('theme', document.body.className);
-                updateThemeIcon();
-            });
-
-            function updateThemeIcon() {
-                if (document.body.classList.contains('dark-mode')) {
-                    icon.className = 'fas fa-sun';
-                } else {
-                    icon.className = 'fas fa-moon';
-                }
-            }
-        });
-
-        // ...rest of your existing scripts...
     </script>
 </body>
 </html>
