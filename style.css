@@ -41,3 +41,120 @@ body {
     margin: 0 0.5rem;
     text-decoration: none;
   }
+
+  .mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/* Update your existing media query */
+@media (max-width: 768px) {
+    .mobile-toggle {
+        display: block;
+    }
+
+    .navbar-menu {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+
+    .navbar-menu.show {
+        display: flex;
+    }
+
+    .navbar-item {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        text-align: left;
+    }
+
+    .navbar-brand {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.funds-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+.fund-card {
+    background: var(--background-light);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .fund-card {
+    background: var(--card-dark);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.fund-card:hover {
+    transform: translateY(-5px);
+}
+
+.fund-card h2 {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.fund-card p {
+    margin: 0.5rem 0;
+}
+
+.fund-card .returns {
+    color: var(--success-color);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.fund-card .invest-button {
+    background: var(--primary-color);
+    color: var(--text-light);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.fund-card .invest-button:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.fund-card .fund-details {
+    margin: 1rem 0;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+.dark-mode .fund-card .fund-details {
+    background: rgba(255, 255, 255, 0.05);
+}

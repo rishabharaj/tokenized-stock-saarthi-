@@ -1,346 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Explore Stocks - STOCK SAARTHI</title>
-  <link rel="stylesheet" href="website.css">
-  <style>
-    /* Basic styling */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh; /* Ensures the body takes at least the full viewport height */
-    }
-
-    /* Default Light Mode */
-    body.light-mode {
-      background-color: #ffffff;
-      color: #000000;
-    }
-
-    /* Dark Mode */
-    body.dark-mode {
-      background-color: #0b0a0a;
-      color: #ffffff;
-    }
-
-    /* Navigation Bar */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #333;
-      color: #fff;
-      padding: 1rem;
-      position: sticky; /* Makes the navbar sticky */
-      top: 0; /* Sticks to the top */
-      z-index: 1000; /* Ensures it stays above other content */
-       width: 100%;
-    }
-
-    .navbar .logo {
-      font-size: 2rem;
-      font-weight: bold;
-    }
-
-    .navbar ul {
-      list-style: none;
-      display: flex;
-      margin: 0;
-      padding: 0;
-    }
-
-    .navbar ul li {
-      margin-left: 1.25rem;
-    }
-
-    .navbar ul li a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 1.5rem;
-    }
-
-    /* Toggle button styles */
-    #theme-toggle {
-      padding: 10px 20px;
-      cursor: pointer;
-      border: none;
-      border-radius: 20px;
-      background-color: #f0f0f0;
-      color: #000;
-      font-size: 16px;
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    #theme-toggle.dark {
-      background-color: #ded5d5;
-      color: #fff;
-    }
-
-    /* Footer */
-    footer {
-      background: #333;
-      color: #fff;
-      text-align: center;
-      padding: 1rem;
-      margin-top: auto; /* Pushes footer to the bottom */
-       width: 100%;
-    }
-
-    .footer-links a {
-      color: #fff;
-      margin: 0 0.5rem;
-      text-decoration: none;
-    }
-
-    /* Main Content */
-    main {
-      flex: 1; /* Takes up remaining space */
-      padding: 20px;
-    }
-
-    /* Stock Cards */
-    .stocks-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      justify-content: start;
-    }
-
-    .stock-card {
-      background: #2c131384;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .stock-card h2 {
-      margin: 0 0 0.5rem 0;
-    }
-
-    .stock-card p {
-      margin: 0.25rem 0;
-    }
-
-    .positive {
-      color: green;
-    }
-
-    .negative {
-      color: red;
-    }
-
-    .buy-button {
-      background: #007bff;
-      color: #ffffff;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .buy-button:hover {
-      background: #0056b3;
-    }
-
-    /* Mutual Funds Section */
-    .funds-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      justify-content: start;
-    }
-
-    .fund-card {
-      background: #2c131384;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .fund-card h2 {
-      margin: 0 0 0.5rem 0;
-    }
-
-    .fund-card p {
-      margin: 0.25rem 0;
-    }
-
-    .investment-summary {
-      margin-top: 2rem;
-    }
-    @media (max-width: 600px) {
-  .stocks-container {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* More columns on smaller screens */
-    justify-content: start;
-  }
-}
-
-@media (min-width: 601px) and (max-width: 900px) {
-  .stocks-container {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust for medium screens */
-    justify-content: start;
-  }
-}
-
-@media (min-width: 901px) {
-  .stocks-container {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Standard for larger screens */
-    justify-content: start;
-  }
-}
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Stock Saarthi - Your AI-powered stock trading platform">
+    <title>Stock Saarthi - Smart Trading Platform</title>
+    <link rel="stylesheet" href="website.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="light-mode">
-  <!-- Navigation Bar -->
-<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a class="navbar-item" href="#">STOCK SAARTHI</a>
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div id="navMenu" class="navbar-menu">
-    <div class="navbar-end">
-      <a class="navbar-item" href="index.html">Home</a>
-      <a class="navbar-item" href="#">Stocks</a>
-      <a class="navbar-item" href="login.html">Login</a>
-      <a class="navbar-item" href="#mutual-funds-section">Mutual fund</a>
-      <a class="navbar-item" href="AI.html">AI Assistance</a>
-      <a class="navbar-item" href="profile.html">Wallet</a>
-      <a class="navbar-item button is-dark" id="theme-toggle">🌙 Dark Mode</a>
-    </div>
-  </div>
-</nav>
-
-  <!-- Main Content -->
-  <main>
-    <h1>Explore Stocks</h1>
-    <div class="stocks-container">
-      <!-- Stock Cards -->
-      <div class="stock-card">
-        <h2>Apple Inc. (AAPL)</h2>
-        <p>Price: $172.38</p>
-        <p class="positive">+1.24%</p>
-        <button class="buy-button">Buy</button>
-      </div>
-      <div class="stock-card">
-        <h2>Tesla Inc. (TSLA)</h2>
-        <p>Price: $674.23</p>
-        <p class="negative">-2.16%</p>
-        <button class="buy-button">Buy</button>
-      </div>
-      <div class="stock-card">
-        <h2>Amazon.com (AMZN)</h2>
-        <p>Price: $123.45</p>
-        <p class="positive">+0.82%</p>
-        <button class="buy-button">Buy</button>
-      </div>
-      <div class="stock-card">
-        <h2>Tata Consultancy Services Limited</h2>
-        <p>Price: $350</p>
-        <p class="positive">+2.5%</p>
-        <button class="buy-button">Buy</button>
-      </div>
-      <div class="stock-card">
-        <h2>Reliance Industries Limited</h2>
-        <p>Price: $240</p>
-        <p class="negative">-1.2%</p>
-        <button class="buy-button">Buy</button>
-      </div>
-      <div class="stock-card">
-        <h2>Infosys Limited</h2>
-        <p>Price: $1700</p>
-        <p class="positive">+3.1%</p>
-        <button class="buy-button">Buy</button>
-      </div>
-      <div class="stock-card">
-        <h2>Reliance Industries Limited</h2>
-        <p>Price: $1450</p>
-        <p class="negative">-0.5%</p>
-        <button class="buy-button">Buy</button>
-      </div>
-    </div>
-
-    <!-- Mutual Funds Section -->
-    <section id="mutual-funds-section">
-      <h1>Explore Mutual Funds</h1>
-      <div class="funds-container">
-        <div class="fund-card">
-          <h2>Motilal Oswal Midcap Fund</h2>
-          <p>Returns: 36.9% (3Y)</p>
+    
+    <!-- navigation -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-chart-line fa-2x"></i>
+            <span>STOCK SAARTHI</span>
+            <button class="mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
-        <div class="fund-card">
-          <h2>Quant Small Cap Fund</h2>
-          <p>Returns: 27.4% (3Y)</p>
+        <div class="navbar-menu">
+            <a href="index.html" class="navbar-item">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="index.html#stocks-section" class="navbar-item">
+                <i class="fas fa-chart-bar"></i> Stocks
+            </a>
+            <a href="index.html#mutual-funds-section" class="navbar-item">
+                <i class="fas fa-hand-holding-usd"></i> Mutual Funds
+            </a>
+            <a href="AI.html" class="navbar-item">
+                <i class="fas fa-robot"></i> AI Assistant
+            </a>
+            <a href="profile.html" class="navbar-item">
+                <i class="fas fa-wallet"></i> Wallet
+            </a>
+            <a href="login.html" class="navbar-item">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+            <button id="theme-toggle" class="navbar-item">
+                <i class="fas fa-moon"></i>
+            </button>
         </div>
-        <div class="fund-card">
-          <h2>Parag Parikh Flexi Cap Fund</h2>
-          <p>Returns: 17.5% (3Y)</p>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Market Overview Section -->
+        <section class="market-overview">
+            <h2><i class="fas fa-chart-line"></i> Market Overview</h2>
+            <div class="market-stats">
+                <!-- Add your market statistics here -->
+            </div>
+        </section>
+
+        <h1>Explore Stocks</h1>
+        <div class="stocks-container">
+            <!-- Stock Cards -->
+            <div class="stock-card">
+                <h2>Apple Inc. (AAPL)</h2>
+                <p>Price: $172.38</p>
+                <p class="positive">+1.24%</p>
+                <button class="buy-button">Buy</button>
+            </div>
+            <div class="stock-card">
+                <h2>Tesla Inc. (TSLA)</h2>
+                <p>Price: $674.23</p>
+                <p class="negative">-2.16%</p>
+                <button class="buy-button">Buy</button>
+            </div>
+            <div class="stock-card">
+                <h2>Amazon.com (AMZN)</h2>
+                <p>Price: $123.45</p>
+                <p class="positive">+0.82%</p>
+                <button class="buy-button">Buy</button>
+            </div>
+            <div class="stock-card">
+                <h2>Tata Consultancy Services Limited</h2>
+                <p>Price: $350</p>
+                <p class="positive">+2.5%</p>
+                <button class="buy-button">Buy</button>
+            </div>
+            <div class="stock-card">
+                <h2>Reliance Industries Limited</h2>
+                <p>Price: $240</p>
+                <p class="negative">-1.2%</p>
+                <button class="buy-button">Buy</button>
+            </div>
+            <div class="stock-card">
+                <h2>Infosys Limited</h2>
+                <p>Price: $1700</p>
+                <p class="positive">+3.1%</p>
+                <button class="buy-button">Buy</button>
+            </div>
+            <div class="stock-card">
+                <h2>Reliance Industries Limited</h2>
+                <p>Price: $1450</p>
+                <p class="negative">-0.5%</p>
+                <button class="buy-button">Buy</button>
+            </div>
         </div>
-        <div class="fund-card">
-          <h2>Nippon India Large Cap Fund</h2>
-          <p>Returns: 22.5% (3Y)</p>
+
+        <!-- Mutual Funds Section -->
+        <section id="mutual-funds-section">
+            <h1>Explore Mutual Funds</h1>
+            <div class="funds-container">
+                <div class="fund-card">
+                    <h2>Motilal Oswal Midcap Fund</h2>
+                    <div class="fund-details">
+                        <p>Category: Mid Cap</p>
+                        <p>Risk: Moderately High</p>
+                        <p class="returns">Returns: 36.9% (3Y)</p>
+                        <p>Min Investment: ₹500</p>
+                    </div>
+                    <button class="invest-button">Invest Now</button>
+                </div>
+                <div class="fund-card">
+                    <h2>Quant Small Cap Fund</h2>
+                    <div class="fund-details">
+                        <p>Category: Small Cap</p>
+                        <p>Risk: High</p>
+                        <p class="returns">Returns: 27.4% (3Y)</p>
+                        <p>Min Investment: ₹1,000</p>
+                    </div>
+                    <button class="invest-button">Invest Now</button>
+                </div>
+                <div class="fund-card">
+                    <h2>Parag Parikh Flexi Cap Fund</h2>
+                    <div class="fund-details">
+                        <p>Category: Flexi Cap</p>
+                        <p>Risk: Moderate</p>
+                        <p class="returns">Returns: 17.5% (3Y)</p>
+                        <p>Min Investment: ₹1,000</p>
+                    </div>
+                    <button class="invest-button">Invest Now</button>
+                </div>
+                <div class="fund-card">
+                    <h2>Nippon India Large Cap Fund</h2>
+                    <div class="fund-details">
+                        <p>Category: Large Cap</p>
+                        <p>Risk: Moderate</p>
+                        <p class="returns">Returns: 22.5% (3Y)</p>
+                        <p>Min Investment: ₹500</p>
+                    </div>
+                    <button class="invest-button">Invest Now</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Stock Saarthi</h3>
+                <p>Your Tokenized AI-powered companion for smart investment decisions.</p>
+            </div>
+            <div class="footer-links">
+                <a href="aboutus.html">About Us</a>
+                <a href="contactUS.html">Contact</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="mailto:rishabharaj321@gmail.com" target="_blank" rel="noopener noreferrer"><i class="fas fa-envelope"></i></a>
+                    <a href="https://www.linkedin.com/in/rishabharaj-sharma-57a7a8256" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/eclipsor_rishabh?igsh=dGM2NXJ0YWxzOGpy" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="investment-summary">
-        <h2>Your Investments</h2>
-        <p>Total Returns: +₹9</p>
-        <p>Current Value: ₹109</p>
-      </div>
-    </section>
-  </main>
+    </footer>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2024 Stock Saarthi. All rights reserved.</p>
-    <div class="footer-links">
-      <a href="#">Privacy Policy</a> | 
-      <a href="#">Terms of Service</a> | 
-      <a href="contactUS.html">Contact Us</a>
-    </div>
-  </footer>
+    <script>
+        // Theme Toggle Script
+        const themeToggle = document.getElementById('theme-toggle');
 
-  <script>
-    // Theme Toggle Script
-    const themeToggle = document.getElementById('theme-toggle');
+        // Check for saved theme in localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.className = savedTheme;
+            updateButtonText();
+        }
 
-    // Check for saved theme in localStorage
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      document.body.className = savedTheme;
-      updateButtonText();
-    }
+        // Add click event listener to toggle button
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            document.body.classList.toggle('light-mode');
 
-    // Add click event listener to toggle button
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      document.body.classList.toggle('light-mode');
+            // Save the current theme in localStorage
+            const currentTheme = document.body.className;
+            localStorage.setItem('theme', currentTheme);
 
-      // Save the current theme in localStorage
-      const currentTheme = document.body.className;
-      localStorage.setItem('theme', currentTheme);
+            updateButtonText();
+        });
 
-      updateButtonText();
-    });
+        // Update button text based on current theme
+        function updateButtonText() {
+            if (document.body.classList.contains('dark-mode')) {
+                themeToggle.textContent = '☀️ Light Mode';
+                themeToggle.classList.add('dark');
+            } else {
+                themeToggle.textContent = '🌙 Dark Mode';
+                themeToggle.classList.remove('dark');
+            }
+        }
 
-    // Update button text based on current theme
-    function updateButtonText() {
-      if (document.body.classList.contains('dark-mode')) {
-        themeToggle.textContent = '☀️ Light Mode';
-        themeToggle.classList.add('dark');
-      } else {
-        themeToggle.textContent = '🌙 Dark Mode';
-        themeToggle.classList.remove('dark');
-      }
-    }
-  </script>
+        // Mobile Navigation Script
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const navbarMenu = document.querySelector('.navbar-menu');
+
+        mobileToggle.addEventListener('click', () => {
+            navbarMenu.classList.toggle('active');
+            const isExpanded = navbarMenu.classList.contains('active');
+            mobileToggle.setAttribute('aria-expanded', isExpanded);
+            
+            const icon = mobileToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.navbar') && navbarMenu.classList.contains('active')) {
+                navbarMenu.classList.remove('active');
+                mobileToggle.setAttribute('aria-expanded', false);
+                mobileToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768 && navbarMenu.classList.contains('active')) {
+                navbarMenu.classList.remove('active');
+                mobileToggle.setAttribute('aria-expanded', false);
+                mobileToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+            }
+        });
+    </script>
+    <script src="script.js"></script>
 </body>
 </html>

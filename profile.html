@@ -1,45 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>MetaMask Test</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="description" content="Stock Saarthi - Your AI-powered stock trading platform">
+  <title>Stock Saarthi   </title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="website.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+  <!-- Add this in the <style> section of your <head> -->
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: 2rem auto;
-      padding: 1rem;
+    .container {
+        max-width: 800px;
+        margin: 80px auto;
+        padding: 2rem;
+        background: var(--background-light);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
     }
+
+    .dark-mode .container {
+        background: var(--card-dark);
+        color: var(--text-light);
+    }
+
     button {
-      margin: 0.5rem 0;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
+        padding: 10px 20px;
+        margin: 10px;
+        border-radius: 5px;
+        border: none;
+        background: var(--primary-color);
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
     }
+
+    .dark-mode button {
+        background: var(--secondary-color);
+    }
+
     #result {
-      margin-top: 1rem;
-      background: #f8f8f8;
-      border: 1px solid #ccc;
-      padding: 1rem;
-      white-space: pre-wrap;
-      min-height: 50px;
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 5px;
+        background: rgba(0, 0, 0, 0.05);
+    }
+
+    .dark-mode #result {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-light);
     }
   </style>
 </head>
-<body>
-  <h1>Test MetaMask API</h1>
-  <p>This example demonstrates basic MetaMask interactions: checking for MetaMask provider, connecting, and retrieving account balance.</p>
+<!-- Replace the existing body tag -->
+<body class="light-mode">
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <i class="fas fa-chart-line fa-2x"></i>
+      <span>STOCK SAARTHI</span>
+      <button class="mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div class="navbar-menu">
+      <a href="index.html" class="navbar-item">
+        <i class="fas fa-home"></i> Home
+      </a>
+      <a href="index.html#stocks-section" class="navbar-item">
+        <i class="fas fa-chart-bar"></i> Stocks
+      </a>
+      <a href="index.html#mutual-funds-section" class="navbar-item">
+        <i class="fas fa-hand-holding-usd"></i> Mutual Funds
+      </a>
+      <a href="AI.html" class="navbar-item">
+        <i class="fas fa-robot"></i> AI Assistant
+      </a>
+      <a href="profile.html" class="navbar-item">
+        <i class="fas fa-wallet"></i> Wallet
+      </a>
+      <button id="theme-toggle" class="navbar-item">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+  </nav>
 
-  <button id="connectBtn">Connect to MetaMask</button>
-  <br/>
-  <button id="getBalanceBtn">Get ETH Balance</button>
-  <br/>
-  <div id="result"></div>
+  <div class="container">
+    <h1>Test MetaMask API</h1>
+    <p>This example demonstrates basic MetaMask interactions: checking for MetaMask provider, connecting, and retrieving account balance.</p>
+    <button id="connectBtn">Connect to MetaMask</button>
+    <button id="getBalanceBtn">Get ETH Balance</button>
+    <div id="result"></div>
+  </div>
 
   <script>
     const connectBtn = document.getElementById('connectBtn');
     const getBalanceBtn = document.getElementById('getBalanceBtn');
     const resultDiv = document.getElementById('result');
-
     let userAccount;
 
     // Check if MetaMask (or any injected Ethereum provider) is installed
@@ -100,12 +160,121 @@
     connectBtn.addEventListener('click', connectMetaMask);
     getBalanceBtn.addEventListener('click', getBalance);
   </script>
+  <script>
+    // Mobile menu functionality
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    const navbarMenu = document.querySelector('.navbar-menu');
+
+    mobileToggle.addEventListener('click', () => {
+      navbarMenu.classList.toggle('active');
+      const isExpanded = navbarMenu.classList.contains('active');
+      mobileToggle.setAttribute('aria-expanded', isExpanded);
+
+      // Toggle icon between bars and times
+      const icon = mobileToggle.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.navbar') && navbarMenu.classList.contains('active')) {
+        navbarMenu.classList.remove('active');
+        mobileToggle.setAttribute('aria-expanded', false);
+        mobileToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+      }
+    });
+
+    // Close menu when window is resized
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768 && navbarMenu.classList.contains('active')) {
+        navbarMenu.classList.remove('active');
+        mobileToggle.setAttribute('aria-expanded', false);
+        mobileToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+      }
+    });
+  </script>
+   <!-- Replace the existing script.js import and add this script before </body> -->
+<script>
+    // Theme toggle functionality
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeToggle = document.getElementById('theme-toggle');
+        const icon = themeToggle.querySelector('i');
+        
+        // Check saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light-mode';
+        document.body.className = savedTheme;
+        updateThemeIcon();
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            document.body.classList.toggle('light-mode');
+            localStorage.setItem('theme', document.body.className);
+            updateThemeIcon();
+        });
+
+        function updateThemeIcon() {
+            if (document.body.classList.contains('dark-mode')) {
+                icon.className = 'fas fa-sun';
+            } else {
+                icon.className = 'fas fa-moon';
+            }
+        }
+    });
+</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <meta name="description" content="Stock Saarthi - Your AI-powered stock trading platform">
+  <title>Stock Saarthi - Trading Platform</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="website.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+  <style>
+    /* ...existing styles... */
+  </style>
+</head>
+<body class="light-mode">
+  <!-- ...existing navigation... -->
+  
+  <!-- ...existing container... -->
+  
+  <!-- ...existing scripts... -->
+  
+  <!-- Footer -->
   <footer>
     <p>&copy; 2024 Stock Saarthi. All rights reserved.</p>
     <div class="footer-links">
-      <a href="#">Privacy Policy</a> | 
-      <a href="#">Terms of Service</a> | 
-      <a href="contactUS.html">Contact Us</a>
+        <a href="aboutus.html">About Us</a>
+        <a href="contactUS.html">Contact Us</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+    </div>
+    <div class="social-links">
+        <a href="mailto:rishabharaj321@gmail.com" target="_blank" rel="noopener noreferrer"><i class="fas fa-envelope"></i></a>
+        <a href="https://www.linkedin.com/in/rishabharaj-sharma-57a7a8256" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+        <a href="https://www.instagram.com/eclipsor_rishabh?igsh=dGM2NXJ0YWxzOGpy" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+    </div>
+  </footer>
+</body>
+</html>
+  <!-- Footer section for all pages -->
+  <footer>
+    <p>&copy; 2024 Stock Saarthi. All rights reserved.</p>
+    <div class="footer-links">
+        <a href="aboutus.html">About Us</a>
+        <a href="contactUS.html">Contact Us</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+    </div>
+    <div class="social-links">
+        <a href="mailto:rishabharaj321@gmail.com" target="_blank" rel="noopener noreferrer"><i class="fas fa-envelope"></i></a>
+        <a href="https://www.linkedin.com/in/rishabharaj-sharma-57a7a8256" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+        <a href="https://www.instagram.com/eclipsor_rishabh?igsh=dGM2NXJ0YWxzOGpy" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
     </div>
   </footer>
 </body>

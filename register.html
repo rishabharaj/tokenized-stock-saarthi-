@@ -7,6 +7,35 @@
     <title>Register</title>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-chart-line fa-2x"></i>
+            <span>STOCK SAARTHI</span>
+            <button class="mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <div class="navbar-menu">
+            <a href="index.html" class="navbar-item">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="index.html#stocks-section" class="navbar-item">
+                <i class="fas fa-chart-bar"></i> Stocks
+            </a>
+            <a href="index.html#mutual-funds-section" class="navbar-item">
+                <i class="fas fa-hand-holding-usd"></i> Mutual Funds
+            </a>
+            <a href="AI.html" class="navbar-item">
+                <i class="fas fa-robot"></i> AI Assistant
+            </a>
+            <a href="profile.html" class="navbar-item">
+                <i class="fas fa-wallet"></i> Wallet
+            </a>
+            <button id="theme-toggle" class="navbar-item">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
     <h1>Register</h1>
     <form method="post" action="">
         {% csrf_token %}
@@ -32,5 +61,6 @@
       <a href="contactUS.html">Contact Us</a>
     </div>
   </footer>
+  <script src="script.js"></script>
 </body>
 </html>
