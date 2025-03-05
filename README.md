@@ -1,205 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Explore Stocks - STOCK SAARTHI</title>
-  <link rel="stylesheet" href="website.css">
-</head>
-<body> <style>
-  /* Basic styling */
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
+# Stock Saarthi - AI-Powered Stock Trading Platform
 
-  /* Default Light Mode */
-  body.light-mode {
-    background-color: #ffffff;
-    color: #000000;
-  }
+## Overview
 
-  /* Dark Mode */
-  body.dark-mode {
-    background-color: #0b0a0a;
-    color: #ffffff;
-  }
+Stock Saarthi is an innovative web-based platform that combines traditional stock trading with cutting-edge AI analysis and blockchain technology. Our platform provides tokenized stock trading, personalized investment recommendations, and secure wallet integration to help investors make informed decisions.
 
-  /* Toggle button styles */
-  #theme-toggle {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    padding: 10px 0px;
-    cursor: pointer;
-    border: none;
-    border-radius: 20px;
-    background-color: #f0f0f0;
-    color: #000;
-    font-size: 16px;
-    transition: background-color 0.3s, color 0.3s;
-  }
+## Features
 
-  #theme-toggle.dark {
-    background-color: #ded5d5;
-    color: #fff;
-  }
-</style>
-</head>
-<body class="light-mode">
-<!-- Theme Toggle Button -->
-<button id="theme-toggle">🌙 Dark Mode</button>
+### 🚀 Core Features
 
-<!-- Example Content -->
+- **AI-Powered Assistant**: Get intelligent investment advice and market insights powered by Gemini 2.0 Flash API
+- **Interactive Stock Explorer**: Browse and analyze trending stocks with real-time price data and performance metrics
+- **Mutual Funds Section**: Discover high-performing mutual funds with detailed risk assessments and historical returns
+- **Secure Wallet Integration**: Connect your MetaMask wallet for seamless token transactions
+- **Dark/Light Theme**: Customize your viewing experience with an intuitive theme toggle
 
-<script>
-  // Select the toggle button
-  const themeToggle = document.getElementById('theme-toggle');
+### 💡 Technical Highlights
 
-  // Check for saved theme in localStorage
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    document.body.className = savedTheme;
-    updateButtonText();
-  }
+- **Responsive Design**: Optimized user experience across desktop, tablet, and mobile devices
+- **Modern UI/UX**: Clean interface with intuitive navigation and visual feedback
+- **Blockchain Integration**: Secure MetaMask wallet connectivity for cryptocurrency transactions
+- **Real-time Data**: Up-to-date market information and analytics
+- **Personalized Recommendations**: AI-driven investment suggestions based on your preferences
 
-  // Add click event listener to toggle button
-  themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    document.body.classList.toggle('light-mode');
+## Screenshots
 
-    // Save the current theme in localStorage
-    const currentTheme = document.body.className;
-    localStorage.setItem('theme', currentTheme);
+### Home Page
+![Home Page](https://yourimagelink.com/homepage.png)
 
-    updateButtonText();
-  });
+### AI Assistant
+![AI Assistant](https://yourimagelink.com/ai-assistant.png)
 
-  // Update button text based on current theme
-  function updateButtonText() {
-    if (document.body.classList.contains('dark-mode')) {
-      themeToggle.textContent = '☀️ Light Mode';
-      themeToggle.classList.add('dark');
-    } else {
-      themeToggle.textContent = '🌙 Dark Mode';
-      themeToggle.classList.remove('dark');
-    }
-  }
-</script>
-  <!-- Navigation Bar -->
-  <header class="navbar">
-    <div class="logo">STOCK SAARTHI</div>
-    <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Stocks</a></li>
-      <li><a href="login.html" >Login</a>
-      </li>
-      <li><a href="#mutual-funds-section">Mutual Funds</a></li>
-      <li><a href="profile.html" >wallet</a>
-      </li>
-    </ul>
-  </header>
+### Wallet Integration
+![Wallet](https://yourimagelink.com/wallet.png)
 
-  <!-- Main Content -->
-  <main>
-    <h1>Explore Stocks</h1>
-    <div class="stocks-container">
-      <!-- Stock Cards -->
-      <div class="stock-card">
-        <h2>Apple Inc. (AAPL)</h2>
-        <p>Price: $172.38</p>
-        <p class="positive">+1.24%</p>
-        <button class="buy-button">Buy</button>
-      </div>
-      <div class="stock-card">
-        <h2>Tesla Inc. (TSLA)</h2>
-        <p>Price: $674.23</p>
-        <p class="negative">-2.16%</p>
-        <button class="buy-button">Buy</button>
-      </div>
-      <div class="stock-card">
-        <h2>Amazon.com (AMZN)</h2>
-        <p>Price: $123.45</p>
-        <p class="positive">+0.82%</p>
-        <button class="buy-button">Buy</button>
-      </div>
-      <div class="stock-card">
-        <h2>Tata Consultancy Services Limited</h2>
-        <p>Price: $350</p>
-        <p class="positive">+2.5%</p>
-        <button class="buy-button">Buy</button>
-      </div>
-      <div class="stock-card">
-        <h2>Reliance Industries Limited</h2>
-        <p>Price: $240</p>
-        <p class="negative">-1.2%</p>
-        <button class="buy-button">Buy</button>
-      </div>
-      <div class="stock-card">
-        <h2>Infosys Limited</h2>
-        <p>Price: $1700 </p>
-        <p class="positive">+3.1%</p>
-        <button class="buy-button">Buy</button>
-      </div>
-      <div class="stock-card">
-        <h2>Reliance Industries Limited</h2>
-        <p>Price: $1450</p>
-        <p class="negative">-0.5%</p>
-        <button class="buy-button">Buy</button>
-      </div>
-      <script>
-        
-         <!-- Mutual Funds Section -->
-  <main id="mutual-funds-section" class="section">
-    <h1>Explore Mutual Funds</h1>
-    <div class="funds-container">
-     
-      <div class="fund-card">
-        <h2>Motilal Oswal Midcap Fund</h2>
-        <p>Returns: 36.9% (3Y)</p>
-      </div>
-      <div class="fund-card">
-        <h2>Quant Small Cap Fund</h2>
-        <p>Returns: 27.4% (3Y)</p>
-      </div>
-      <div class="fund-card">
-        <h2>Parag Parikh Flexi Cap Fund</h2>
-        <p>Returns: 17.5% (3Y)</p>
-      </div>
-      <div class="fund-card">
-        <h2>Nippon India Large Cap Fund</h2>
-        <p>Returns: 22.5% (3Y)</p>
-      </div>
-    </div>
-    <div class="investment-summary">
-      <h2>Your Investments</h2>
-      <p>Total Returns: +₹9</p>
-      <p>Current Value: ₹109</p>
-    </div>
-  </main>
+## How It Works
 
-        async function fetchData(stockSymbol) {
-          try {
-            const response = await fetch(`http://localhost:5000/stock-data?symbol=${stockSymbol}`);
-            const data = await response.json();
-    
-            if (data.error) {
-              alert(`Error fetching data for ${stockSymbol}: ${data.error}`);
-              return;
-            }
-    
-            // Update stock price and chart
-            document.getElementById(`${stockSymbol}-price`).textContent = `Price: $${data.current_price}`;
-            const chartImg = document.getElementById(`${stockSymbol}-chart`);
-            chartImg.src = `http://localhost:5000${data.chart_url}`;
-            chartImg.style.display = 'block';
-          } catch (error) {
-            console.error(`Error fetching data for ${stockSymbol}:`, error);
-          }
-        }
-      </script>
- <script src="server.js"></script>
-  <script src="script.js"></script>
-</body>
-</html>
+1. **Explore Markets**: Browse trending stocks and mutual funds with comprehensive performance data
+2. **Get AI Insights**: Consult our AI assistant for personalized investment recommendations
+3. **Connect Wallet**: Link your MetaMask wallet for secure transactions
+4. **Invest Confidently**: Make informed decisions backed by data and AI analysis
+
+## Technologies Used
+
+- **Frontend**: HTML5, CSS3, JavaScript (Vue.js)
+- **AI Integration**: Gemini 2.0 Flash API for intelligent analysis
+- **Web3**: MetaMask integration for blockchain transactions
+- **UI Framework**: Custom CSS with responsive design
+- **Icons**: Font Awesome library
+
+## Getting Started
+
+1. Clone the repository
+   ```bash
+   git clone https://github.com/rishabharaj/tokenized-stock-saarthi.git
+   ```
+
+2. Open `index.html` in your browser
+3. Explore stocks and mutual funds
+4. Connect your MetaMask wallet (optional) for full functionality
+5. Consult the AI assistant for personalized advice
+
+## Future Roadmap
+
+- Advanced portfolio tracking and analytics
+- Integration with additional blockchain networks
+- Mobile app development
+- Enhanced predictive algorithms
+- Social trading features
+
+## Contributors
+
+- Rishabharaj Sharma - Lead Developer & Creator
+
+## License
+
+© 2024 Stock Saarthi. All rights reserved.
+
+---
+
+**Contact:** rishabharaj321@gmail.com  
+**Connect:** [LinkedIn](https://www.linkedin.com/in/rishabharaj-sharma-57a7a8256) | [Instagram](https://www.instagram.com/eclipsor_rishabh)
