@@ -324,6 +324,17 @@ footer {
     font-size: 1.1rem;
 }
 
+/* Mutual Fund Returns Styling */
+.fund-card .returns {
+    color: #22c55e; /* Green color for positive returns */
+    font-weight: bold;
+}
+
+/* Optional: If you want different colors based on positive/negative returns */
+.fund-card .returns.negative {
+    color: #ef4444; /* Red color for negative returns */
+}
+
 .invest-button {
     background: var(--primary-color);
     color: var(--text-light);
