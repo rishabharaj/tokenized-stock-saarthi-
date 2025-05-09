@@ -24,6 +24,9 @@ Stock Saarthi is an innovative web-based platform that combines traditional stoc
 
 ## Screenshots
 
+### Wallet Integration
+![Wallet](https://drive.google.com/uc?export=view&id=1oFZpIbmrF2Rl08KfrhiMyAveIc9EUINF)
+
 ### Home Page
 ![Home Page](https://drive.google.com/uc?export=view&id=1tOf3b-x7e9kN4s8wurUolPf6zxZq5Kt1
 )
@@ -31,8 +34,6 @@ Stock Saarthi is an innovative web-based platform that combines traditional stoc
 ### AI Assistant
 ![AI Assistant](https://drive.google.com/uc?export=view&id=1Ey3QidkaUd63zCHgCtT9WJEvFc4QXBPi)
 
-### Wallet Integration
-![Wallet](https://drive.google.com/uc?export=view&id=1oFZpIbmrF2Rl08KfrhiMyAveIc9EUINF)
 ## How It Works
 
 1. **Explore Markets**: Browse trending stocks and mutual funds with comprehensive performance data
