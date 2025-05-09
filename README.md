@@ -24,7 +24,7 @@ Stock Saarthi is an innovative web-based platform that combines traditional stoc
 
 ## Screenshots
 
-### Wallet Integration
+### Wallet Integration - with MetaMask
 ![Wallet](https://drive.google.com/uc?export=view&id=1oFZpIbmrF2Rl08KfrhiMyAveIc9EUINF)
 
 ### Home Page
