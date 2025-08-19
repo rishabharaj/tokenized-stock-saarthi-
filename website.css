@@ -1,12 +1,27 @@
 :root {
     --primary-color: #0c5f88;
     --secondary-color: #2a9d8f;
+    --accent-color: #f39c12;
+    --success-color: #22c55e;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
     --background-light: #ffffff;
     --background-dark: #1a1a1a;
+    --card-light: #ffffff;
     --card-dark: #2c2c2c;
     --text-light: #ffffff;
     --text-dark: #333333;
-    --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --text-muted: #6b7280;
+    --border-light: #e5e7eb;
+    --border-dark: #374151;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    --gradient-accent: linear-gradient(135deg, var(--accent-color), #e67e22);
+    --border-radius: 8px;
+    --border-radius-lg: 12px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Base styles */
@@ -18,11 +33,13 @@
 
 body {
     margin: 0;
-    font-family: 'Inter', Arial, sans-serif;
-    transition: all 0.3s ease;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    transition: var(--transition);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    line-height: 1.6;
+    font-weight: 400;
 }
 
 /* Theme modes */
@@ -38,12 +55,13 @@ body.dark-mode {
 
 /* Navigation styles */
 .navbar {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    padding: 1rem;
+    background: var(--gradient-primary);
+    padding: 1rem 2rem;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(10px);
 }
 
 .navbar-brand {
@@ -51,24 +69,53 @@ body.dark-mode {
     align-items: center;
     gap: 1rem;
     color: var(--text-light);
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.navbar-brand i {
+    background: var(--gradient-accent);
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
 }
 
 .navbar-menu {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
 .navbar-item {
     color: var(--text-light) !important;
     text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    transition: all 0.3s ease;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.navbar-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: var(--transition);
+}
+
+.navbar-item:hover::before {
+    left: 100%;
 }
 
 .navbar-item:hover {
     background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
 }
 
 /* Mobile Navigation */
@@ -136,81 +183,308 @@ body.dark-mode {
     z-index: 1000;
 }
 
+/* Main Content Styling */
+main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+main h1 {
+    color: var(--text-dark);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.dark-mode main h1 {
+    color: var(--text-light);
+}
+
+main h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+}
+
 /* Stock Cards */
 .stocks-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    padding: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
     max-width: 1400px;
     margin: 0 auto;
 }
 
 .stock-card {
-    background: var(--background-light);
-    border-radius: 12px;
-    padding: 1.5rem;
+    background: var(--card-light);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
     box-shadow: var(--shadow);
-    transition: transform 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+    border: 1px solid var(--border-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.stock-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
 }
 
 .dark-mode .stock-card {
     background: var(--card-dark);
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--border-dark);
 }
 
 .stock-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
 }
 
 .stock-card h2 {
-  color: var(--primary-color);
-  margin-bottom: 1rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.dark-mode .stock-card h2 {
+    color: var(--text-light);
+}
+
+.stock-card p {
+    margin: 0.75rem 0;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dark-mode .stock-card p {
+    color: var(--text-light);
+}
+
+.stock-card p:first-of-type {
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--text-dark);
+}
+
+.dark-mode .stock-card p:first-of-type {
+    color: var(--text-light);
 }
 
 /* Buttons */
 .buy-button {
-    background: var(--primary-color);
+    background: var(--gradient-primary);
     color: var(--text-light);
     border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 6px;
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius);
     cursor: pointer;
     font-weight: 600;
-    transition: all 0.3s ease;
+    font-size: 1rem;
+    transition: var(--transition);
     width: 100%;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.buy-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: var(--transition);
+}
+
+.buy-button:hover::before {
+    left: 100%;
 }
 
 .buy-button:hover {
-    background: var(--secondary-color);
     transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
-/* Market Stats */
+.buy-button:active {
+    transform: translateY(0);
+}
+
+/* Price change indicators */
+.positive {
+    color: var(--success-color) !important;
+    font-weight: 700;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.positive::before {
+    content: '↗';
+    font-size: 1.5rem;
+    background: var(--success-color);
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+}
+
+.negative {
+    color: var(--error-color) !important;
+    font-weight: 700;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.negative::before {
+    content: '↘';
+    font-size: 1.5rem;
+    background: var(--error-color);
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+}
+
+/* Dark mode adjustments */
+.dark-mode .positive {
+    color: #10b981 !important;
+}
+
+.dark-mode .negative {
+    color: #f87171 !important;
+}
+
+/* Market Overview */
 .market-overview {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: var(--gradient-primary);
     color: var(--text-light);
-    padding: 2rem;
-    margin-bottom: 2rem;
-    border-radius: 12px;
+    padding: 3rem 2rem;
+    margin: 2rem 0;
+    border-radius: var(--border-radius-lg);
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.market-overview::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.5;
+}
+
+.market-overview h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.market-overview h2 i {
+    margin-right: 1rem;
+    color: var(--accent-color);
 }
 
 .market-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.market-stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: var(--transition);
+}
+
+.market-stat-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.market-stat-card h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--accent-color);
+}
+
+.market-stat-card p {
+    font-size: 1rem;
+    opacity: 0.9;
+}
     gap: 1rem;
     margin-top: 1rem;
 }
 
 /* Footer */
+/* Footer styling */
 footer {
     background: var(--background-dark);
     color: var(--text-light);
-    padding: 2rem 1rem;
+    padding: 3rem 2rem 2rem;
     margin-top: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
 }
 
 .footer-content {
@@ -219,190 +493,226 @@ footer {
     gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    text-align: center;
 }
 
-.footer-section h3 {
-  margin-bottom: 5px;
+.footer-section h3,
+.footer-section h4 {
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+    font-weight: 600;
 }
 
 .footer-section p {
-  line-height: 1.6;
-}
-
-
-/* footer styling across all pages */
-footer {
-  background: var(--background-dark);
-  color: var(--text-light);
-  padding: 2rem;
-  margin-top: auto;
-  text-align: center;
+    line-height: 1.6;
+    opacity: 0.9;
 }
 
 .footer-links {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center; /* Add this */
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
 }
 
 .footer-links a {
-  color: var(--text-light);
-  text-decoration: none;
-  padding: 0 1rem;
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
-  transition: color 0.3s ease;
-  white-space: nowrap; /* Add this to prevent line breaks */
-  line-height: 1; /* Add this to maintain consistent height */
-  display: inline-block; /* Add this */
-}
-
-.footer-links a:last-child {
-  border-right: none;
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .footer-links a:hover {
-  color: var(--secondary-color);
+    color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: var(--gradient-primary);
+    color: var(--text-light);
+    border-radius: 50%;
+    transition: var(--transition);
+    font-size: 1.25rem;
+}
+
+.social-links a:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: var(--shadow-lg);
 }
 
 .dark-mode .footer-links a {
-  color: var(--text-light);
+    color: var(--text-light);
 }
 
 .dark-mode .footer-links a:hover {
-  color: var(--secondary-color);
+    color: var(--accent-color);
 }
 
 /* Mutual Fund Cards */
 .funds-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    padding: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .fund-card {
-    background: var(--background-light);
-    border-radius: 12px;
-    padding: 1.5rem;
+    background: var(--card-light);
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
     box-shadow: var(--shadow);
-    transition: transform 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+    border: 1px solid var(--border-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.fund-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-accent);
 }
 
 .dark-mode .fund-card {
     background: var(--card-dark);
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--border-dark);
 }
 
 .fund-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
 }
 
 .fund-card h2 {
     color: var(--primary-color);
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+}
+
+.dark-mode .fund-card h2 {
+    color: var(--text-light);
 }
 
 .fund-details {
-    background: rgba(0, 0, 0, 0.05);
-    padding: 1rem;
-    border-radius: 8px;
-    margin: 1rem 0;
+    background: rgba(0, 0, 0, 0.03);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin: 1.5rem 0;
+    border-left: 4px solid var(--primary-color);
 }
 
 .dark-mode .fund-details {
     background: rgba(255, 255, 255, 0.05);
 }
 
-.fund-card .returns {
-    color: var(--success-color);
-    font-weight: bold;
-    font-size: 1.1rem;
+.fund-details p {
+    margin: 0.75rem 0;
+    font-weight: 500;
+    color: var(--text-muted);
 }
 
-/* Mutual Fund Returns Styling */
-.fund-card .returns {
-    color: #22c55e; /* Green color for positive returns */
-    font-weight: bold;
+.dark-mode .fund-details p {
+    color: var(--text-light);
 }
 
-/* Optional: If you want different colors based on positive/negative returns */
+.fund-card .returns {
+    color: var(--success-color) !important;
+    font-weight: 700;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.fund-card .returns::before {
+    content: '📈';
+    font-size: 1.25rem;
+}
+
 .fund-card .returns.negative {
-    color: #ef4444; /* Red color for negative returns */
+    color: var(--error-color) !important;
+}
+
+.fund-card .returns.negative::before {
+    content: '📉';
 }
 
 .invest-button {
-    background: var(--primary-color);
+    background: var(--gradient-accent);
     color: var(--text-light);
     border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 6px;
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius);
     cursor: pointer;
     font-weight: 600;
-    transition: all 0.3s ease;
+    font-size: 1rem;
+    transition: var(--transition);
     width: 100%;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.invest-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: var(--transition);
+}
+
+.invest-button:hover::before {
+    left: 100%;
 }
 
 .invest-button:hover {
-    background: var(--secondary-color);
     transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .navbar ul {
-    display: none;
-  }
-  
-  .navbar-burger {
-    display: block;
-  }
-  
-  .stocks-container {
-    grid-template-columns: 1fr;
+  /* Navigation */
+  .navbar {
     padding: 1rem;
   }
 
-  .mobile-toggle {
-    display: block;
-  }
-
-  .navbar-menu {
-    display: none;
+  .navbar-brand {
     width: 100%;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    background: var(--primary-color); /* Changed from background-light */
-    padding: 1rem;
-    box-shadow: var(--shadow);
-  }
-
-  .dark-mode .navbar-menu {
-    background: var(--background-dark);
-  }
-
-  .navbar-menu.active {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .navbar-item {
-    padding: 0.75rem;
-    width: 100%;
-    text-align: left;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    color: var(--text-light) !important;
-  }
-
-  .dark-mode .navbar-item {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    justify-content: space-between;
+    align-items: center;
   }
 
   .mobile-toggle {
@@ -414,23 +724,188 @@ footer {
     cursor: pointer;
   }
 
-  .navbar-brand {
+  .navbar-menu {
+    display: none;
     width: 100%;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    background: var(--primary-color);
+    padding: 1rem;
+    box-shadow: var(--shadow-lg);
+    border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+  }
+
+  .dark-mode .navbar-menu {
+    background: var(--background-dark);
+  }
+
+  .navbar-menu.active {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .navbar-item {
+    padding: 1rem;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-light) !important;
+    border-radius: var(--border-radius);
+    margin-bottom: 0.5rem;
+  }
+
+  .dark-mode .navbar-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Main content */
+  main {
+    padding: 1rem;
+  }
+
+  main h1 {
+    font-size: 2rem;
+  }
+
+  /* Stock cards */
+  .stocks-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+
+  .stock-card {
+    padding: 1.5rem;
+  }
+
+  /* Market overview */
+  .market-overview {
+    padding: 2rem 1rem;
+    margin: 1rem 0;
+  }
+
+  .market-overview h2 {
+    font-size: 2rem;
+  }
+
+  .market-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  /* Mutual fund cards */
+  .funds-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+
+  .fund-card {
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  /* AI page specific */
+  .ai-container {
+    padding: 0 1rem;
+  }
+
+  .ai-header h1 {
+    font-size: 2rem;
+  }
+
+  .chat-container {
+    padding: 1rem;
+    min-height: 400px;
+  }
+
+  .messages-area {
+    min-height: 250px;
+    max-height: 300px;
+  }
+
+  .message-content {
+    max-width: 85%;
+    font-size: 0.9rem;
+  }
+
+  .input-area {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .message-input {
+    min-height: 50px;
+  }
+
+  .send-button {
+    width: 100%;
+    height: 50px;
+  }
+
+  /* Footer */
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-links a {
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+  }
+
+  .social-links {
+    gap: 0.75rem;
+  }
+
+  .social-links a {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small screens */
+  .navbar {
+    padding: 0.75rem;
+  }
+
+  .ai-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .market-overview h2 {
+    font-size: 1.5rem;
   }
 
   .market-stats {
     grid-template-columns: 1fr;
   }
 
-  .funds-container {
+  .stock-card,
+  .fund-card {
     padding: 1rem;
   }
-    
-  .fund-card {
-    margin-bottom: 1rem;
+
+  .message-content {
+    max-width: 90%;
+    padding: 0.75rem 1rem;
+  }
+
+  .message-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
   }
 }
 

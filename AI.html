@@ -5,355 +5,254 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AI Assistant - Stock Saarthi">
     <title>AI Assistant - Stock Saarthi</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
     <link rel="stylesheet" href="website.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <style>
-        /* Add these CSS variables at the top of your style section */
-        :root {
-            --primary-color: #0c5f88;
-            --secondary-color: #2a9d8f;
-            --background-light: #ffffff;
-            --background-dark: #1a1a1a;
-            --card-dark: #2c2c2c;
-            --text-light: #ffffff;
-            --text-dark: #333333;
-            --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        /* AI Chat Specific Styles */
+        .ai-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
         }
 
-        /* Add theme transition */
-        body {
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        /* Update dark mode styles */
-        .dark-mode {
-            background-color: var(--background-dark);
-            color: var(--text-light);
-        }
-
-        .dark-mode .navbar {
-            background: var(--background-dark);
-        }
-
-        .dark-mode .message-container {
-            background-color: var(--card-dark);
-        }
-
-        .dark-mode .message {
-            background-color: var(--background-dark);
-            color: var(--text-light);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .dark-mode .box {
-            background-color: var(--card-dark);
-            color: var(--text-light);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .dark-mode .title,
-        .dark-mode .label {
-            color: var(--text-light) !important;
-        }
-
-        .dark-mode .input {
-            background-color: var(--card-dark);
-            color: var(--text-light);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .dark-mode .button.is-primary {
-            background-color: var(--primary-color);
-            color: var(--text-light);
-        }
-
-        /* Add these navigation styles at the top of your existing styles */
-        .navbar {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            padding: 1rem;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: var(--shadow);
-        }
-
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            color: var(--text-light);
-        }
-
-        .navbar-menu {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .navbar-item {
-            color: var(--text-light) !important;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        .navbar-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* Mobile navigation */
-        @media (max-width: 768px) {
-            .navbar-menu {
-                display: none;
-                width: 100%;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                background: var(--primary-color);
-                padding: 1rem;
-                box-shadow: var(--shadow);
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .navbar-menu.active {
-                display: flex;
-            }
-
-            .navbar-item {
-                width: 100%;
-                padding: 0.75rem;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                color: var(--text-light) !important;
-            }
-
-            .mobile-toggle {
-                display: block;
-                background: none;
-                border: none;
-                color: var(--text-light);
-                font-size: 1.5rem;
-                cursor: pointer;
-                padding: 0.5rem;
-            }
-
-            .navbar-brand {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 0 1rem;
-            }
-
-            .dark-mode .navbar-menu {
-                background: var(--background-dark);
-            }
-        }
-
-        /* Hide mobile toggle on desktop */
-        @media (min-width: 769px) {
-            .mobile-toggle {
-                display: none;
-            }
-            
-            .navbar {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-        }
-
-        /* Chat specific styles */
-        .message-container {
-            max-height: 400px;
-            overflow-y: auto;
-            margin-bottom: 1rem;
-        }
-
-        .message {
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            transition: background-color 0.3s ease;
-        }
-
-        .tag {
-            font-weight: bold;
-            margin-right: 0.5rem;
-        }
-
-        .input {
-            background-color: #f4f0f0;
-            color: #000000;
-            transition: all 0.3s ease;
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-        }
-
-        .dark-mode .input {
-            background-color: #333;
-            color: #f6f3f3;
-            border: 1px solid #555;
-        }
-
-        .button.is-primary {
-            width: 100%;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .dark-mode .button.is-primary {
-            background-color: #555;
-            color: #ffffff;
-        }
-
-        .box {
-            background-color: #ffffff;
-            transition: background-color 0.3s ease;
-            width: 100%;
-        }
-
-        .dark-mode .box {
-            background-color: #1e1e1e;
-            color: #8f8585;
-        }
-
-        /* Responsive styles */
-        @media screen and (max-width: 768px) {
-            .column {
-                width: 100% !important;
-                padding: 10px;
-            }
-            .box {
-                padding: 15px;
-            }
-        }
-
-        /* Dark mode styles */
-        .dark-mode .message-container {
-            background-color: var(--background-dark);
-        }
-
-        .dark-mode .message {
-            background-color: var(--card-dark);
-            color: var(--text-light);
-        }
-
-        .dark-mode .box {
-            background-color: var(--background-dark);
-            color: var (--text-light);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .dark-mode .title,
-        .dark-mode .label {
-            color: var(--text-light);
-        }
-
-        .dark-mode .input {
-            background-color: var(--card-dark);
-            color: var(--text-light);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .dark-mode .button.is-primary {
-            background-color: var(--primary-color);
-            color: var(--text-light);
-        }
-
-        /* Add these footer styles to your existing styles */
-        footer {
-            background: var(--background-dark);
-            color: var(--text-light);
-            padding: 2rem;
-            margin-top: auto;
+        .ai-header {
             text-align: center;
+            margin-bottom: 3rem;
         }
 
-        .footer-links {
+        .ai-header h1 {
+            color: var(--primary-color);
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .dark-mode .ai-header h1 {
+            color: var(--text-light);
+        }
+
+        .ai-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .ai-header p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
             margin-top: 1rem;
         }
 
-        .footer-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            padding: 0 1rem;
-            border-right: 1px solid rgba(255, 255, 255, 0.2);
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:last-child {
-            border-right: none;
-        }
-
-        .footer-links a:hover {
-            color: var(--secondary-color);
-        }
-
-        .dark-mode .footer-links a {
+        .dark-mode .ai-header p {
             color: var(--text-light);
         }
 
-        .dark-mode .footer-links a:hover {
-            color: var(--secondary-color);
+        .chat-container {
+            background: var(--card-light);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-light);
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Critical mobile navigation styles */
-        @media (max-width: 768px) {
-            .navbar-menu {
-                display: none;
-                width: 100%;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                background: inherit;
-                flex-direction: column;
-                padding: 1rem;
-                box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-                z-index: 100;
-            }
-            
-            .navbar-menu.active {
-                display: flex;
-            }
-            
-            .navbar-item {
-                padding: 0.75rem 0;
-                width: 100%;
-                text-align: center;
-            }
+        .dark-mode .chat-container {
+            background: var(--card-dark);
+            border-color: var(--border-dark);
         }
 
-        /* Update navbar styles to align center-left */
-        .navbar-menu {
-            justify-content: flex-start;
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: var(--border-radius);
+            min-height: 300px;
+            max-height: 400px;
         }
-        
-        .navbar-item {
-            padding: 0.75rem 1.5rem;
+
+        .dark-mode .messages-area {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .message {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+            font-size: 1.2rem;
         }
-        
-        .navbar-item i {
-            margin-right: 8px;
+
+        .message.user .message-avatar {
+            background: var(--gradient-primary);
         }
-        
-        /* Ensure mobile menu keeps left alignment */
-        @media (max-width: 768px) {
-            .navbar-menu.active {
-                align-items: flex-start;
+
+        .message.ai .message-avatar {
+            background: var(--gradient-accent);
+        }
+
+        .message-content {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius-lg);
+            max-width: 70%;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            position: relative;
+        }
+
+        .dark-mode .message-content {
+            background: var(--card-dark);
+            border-color: var(--border-dark);
+            color: var(--text-light);
+        }
+
+        .message.user .message-content {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .message.ai .message-content {
+            background: #f8f9fa;
+        }
+
+        .dark-mode .message.ai .message-content {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .input-area {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--border-light);
+            border-radius: var(--border-radius-lg);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: white;
+            resize: vertical;
+            min-height: 60px;
+            max-height: 120px;
+            font-family: inherit;
+        }
+
+        .dark-mode .message-input {
+            background: var(--card-dark);
+            border-color: var(--border-dark);
+            color: var(--text-light);
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(12, 95, 136, 0.1);
+        }
+
+        .send-button {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius-lg);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            height: 60px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .send-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 3px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
             }
-            
-            .navbar-item {
-                text-align: left;
-                padding-left: 2rem; /* Adds more left padding on mobile */
+            30% {
+                transform: translateY(-10px);
             }
+        }
+
+        .welcome-message {
+            text-align: center;
+            color: var(--text-muted);
+            font-style: italic;
+            margin: 2rem 0;
+        }
+
+        .dark-mode .welcome-message {
+            color: var(--text-light);
         }
     </style>
 </head>
@@ -389,124 +288,187 @@
         </div>
     </nav>
 
-    <!-- Chat Application -->
-    <div id="app">
-    <section class="section">
-        <div class="container">
-            <h1 class="title">AI Assistant</h1>
-            <div class="columns">
-                <div class="column is-12">
-                    <div class="box">
-                        <div class="message-container">
-                            <div class="message" v-for="(message, index) in messages" :key="index">
-                                <span class="tag is-info" v-if="message.sender === 'user'">You</span>
-                                <span class="tag is-warning" v-if="message.sender === 'rishabh'">Rishabh</span>
-                                <span>{{ message.text }}</span>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label class="label">Message</label>
-                            <div class="control">
-                                <input class="input" type="text" v-model="newMessage" @keyup.enter="sendMessage" placeholder="Type your message...">
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="control">
-                                <button class="button is-primary" @click="sendMessage">Send Message</button>
-                            </div>
+    <!-- Main Content -->
+    <main>
+        <div class="ai-container">
+            <div class="ai-header">
+                <h1><i class="fas fa-robot"></i> AI Assistant</h1>
+                <p>Your intelligent companion for smart investment decisions</p>
+            </div>
+
+            <div class="chat-container">
+                <div class="messages-area" id="messagesArea">
+                    <div class="welcome-message">
+                        👋 Hello! I'm your AI investment assistant. Ask me anything about stocks, mutual funds, or investment strategies!
+                    </div>
+                </div>
+                
+                <div class="typing-indicator" id="typingIndicator">
+                    <div class="message-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div>
+                        AI is typing
+                        <div class="typing-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
                         </div>
                     </div>
                 </div>
+
+                <div class="input-area">
+                    <textarea 
+                        id="messageInput" 
+                        class="message-input" 
+                        placeholder="Ask me about stocks, mutual funds, or investment strategies..."
+                        rows="1"
+                    ></textarea>
+                    <button id="sendButton" class="send-button">
+                        <i class="fas fa-paper-plane"></i>
+                        Send
+                    </button>
+                </div>
             </div>
         </div>
-    </section>
-</div>
+    </main>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Stock Saarthi. All rights reserved.</p>
-        <div class="footer-links">
-            <a href="aboutus.html">About Us</a>
-            <a href="contactUS.html">Contact Us</a>
-            <a href="privacy.html">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-        </div>
-        <div class="social-links">
-            <a href="mailto:rishabharaj321@gmail.com" target="_blank" rel="noopener noreferrer">
-                <i class="fas fa-envelope"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/rishabharaj-sharma-57a7a8256" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="https://www.instagram.com/eclipsor_rishabh?igsh=dGM2NXJ0YWxzOGpy" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-instagram"></i>
-            </a>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Stock Saarthi</h3>
+                <p>Your Tokenized AI-powered companion for smart investment decisions.</p>
+            </div>
+            <div class="footer-links">
+                <a href="aboutus.html">About Us</a>
+                <a href="contactUS.html">Contact</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="social-links">
+                    <a href="mailto:rishabharaj321@gmail.com" target="_blank" rel="noopener noreferrer"><i class="fas fa-envelope"></i></a>
+                    <a href="https://www.linkedin.com/in/rishabharaj-sharma-57a7a8256" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/eclipsor_rishabh?igsh=dGM2NXJ0YWxzOGpy" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script>
-        const geminiApiKey = 'AIzaSyCKhPC6zO7F-0hA2cvwIdpy1oU7V3wKJoU';
-        
-        new Vue({
-            el: '#app',
-            data: {
-                messages: [],
-                newMessage: '',
-                errorMessage: ''
-            },
-            methods: {
-                async sendMessage() {
-                    if (!this.newMessage.trim()) return;
-                    
-                    const message = {
-                        sender: 'user',
-                        text: this.newMessage
-                    };
-                    this.messages.push(message);
-                    this.newMessage = '';
-                    
-                    const thinkingIndex = this.messages.length;
-                    this.messages.push({
-                        sender: 'rishabh',
-                        text: 'Thinking...'
-                    });
-                    
-                    try {
-                        const response = await axios.post(
-                            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`,
-                            {
-                                contents: [{
-                                    parts: [{ text: message.text }]
-                                }]
-                            }
-                        );
-                        
-                        if (response.data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-                            let rishabhMessage = response.data.candidates[0].content.parts[0].text;
-                            this.messages.splice(thinkingIndex, 1, {
-                                sender: 'rishabh',
-                                text: rishabhMessage.trim()
-                            });
-                        } else {
-                            this.messages.splice(thinkingIndex, 1);
-                            this.messages.push({
-                                sender: 'rishabh',
-                                text: 'Sorry, I could not process your request at the moment.'
-                            });
-                        }
-                    } catch (error) {
-                        this.messages.splice(thinkingIndex, 1);
-                        this.messages.push({
-                            sender: 'rishabh',
-                            text: 'Sorry, I encountered an error while processing your request.'
-                        });
+        // Chat functionality
+        class ChatApp {
+            constructor() {
+                this.messagesArea = document.getElementById('messagesArea');
+                this.messageInput = document.getElementById('messageInput');
+                this.sendButton = document.getElementById('sendButton');
+                this.typingIndicator = document.getElementById('typingIndicator');
+                
+                this.init();
+            }
+
+            init() {
+                this.sendButton.addEventListener('click', () => this.sendMessage());
+                this.messageInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
                     }
+                });
+
+                // Auto-resize textarea
+                this.messageInput.addEventListener('input', () => {
+                    this.messageInput.style.height = 'auto';
+                    this.messageInput.style.height = Math.min(this.messageInput.scrollHeight, 120) + 'px';
+                });
+            }
+
+            sendMessage() {
+                const message = this.messageInput.value.trim();
+                if (!message) return;
+
+                this.addMessage(message, 'user');
+                this.messageInput.value = '';
+                this.messageInput.style.height = '60px';
+                
+                this.showTypingIndicator();
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    this.hideTypingIndicator();
+                    this.addAIResponse(message);
+                }, 1500 + Math.random() * 1000);
+            }
+
+            addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'message-avatar';
+                avatar.innerHTML = sender === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+                
+                const content = document.createElement('div');
+                content.className = 'message-content';
+                content.textContent = text;
+                
+                messageDiv.appendChild(avatar);
+                messageDiv.appendChild(content);
+                
+                // Remove welcome message if it exists
+                const welcomeMessage = this.messagesArea.querySelector('.welcome-message');
+                if (welcomeMessage) {
+                    welcomeMessage.remove();
+                }
+                
+                this.messagesArea.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            addAIResponse(userMessage) {
+                const responses = this.getAIResponse(userMessage);
+                this.addMessage(responses, 'ai');
+            }
+
+            getAIResponse(message) {
+                const lowerMessage = message.toLowerCase();
+                
+                // Simple keyword-based responses
+                if (lowerMessage.includes('stock') || lowerMessage.includes('share')) {
+                    return "I can help you with stock analysis! Consider factors like P/E ratio, market cap, and company fundamentals. Would you like information about any specific stock?";
+                } else if (lowerMessage.includes('mutual fund')) {
+                    return "Mutual funds are great for diversified investing! Look at factors like expense ratio, fund manager track record, and investment objective. Are you interested in equity, debt, or hybrid funds?";
+                } else if (lowerMessage.includes('investment') || lowerMessage.includes('invest')) {
+                    return "Smart investing involves diversification, understanding your risk tolerance, and having a long-term perspective. What's your investment goal and time horizon?";
+                } else if (lowerMessage.includes('risk')) {
+                    return "Risk management is crucial in investing. Diversify across asset classes, invest only what you can afford to lose, and match investments to your risk tolerance. What's your risk profile?";
+                } else if (lowerMessage.includes('portfolio')) {
+                    return "A balanced portfolio typically includes stocks, bonds, and sometimes alternative investments. The allocation depends on your age, goals, and risk tolerance. Would you like help building a portfolio strategy?";
+                } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+                    return "Hello! I'm here to help with all your investment questions. Feel free to ask about stocks, mutual funds, portfolio strategies, or any financial topic!";
+                } else {
+                    return "That's an interesting question! While I aim to provide helpful investment guidance, I recommend consulting with a qualified financial advisor for personalized advice. Is there a specific investment topic I can help clarify?";
                 }
             }
-        });
 
-        // Theme Toggle Script - copied from index.html
+            showTypingIndicator() {
+                this.typingIndicator.style.display = 'flex';
+                this.scrollToBottom();
+            }
+
+            hideTypingIndicator() {
+                this.typingIndicator.style.display = 'none';
+            }
+
+            scrollToBottom() {
+                setTimeout(() => {
+                    this.messagesArea.scrollTop = this.messagesArea.scrollHeight;
+                }, 100);
+            }
+        }
+
+        // Theme Toggle Script
         const themeToggle = document.getElementById('theme-toggle');
 
         // Check for saved theme in localStorage
@@ -567,6 +529,11 @@
                 mobileToggle.setAttribute('aria-expanded', false);
                 mobileToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
             }
+        });
+
+        // Initialize chat app
+        document.addEventListener('DOMContentLoaded', () => {
+            new ChatApp();
         });
     </script>
 </body>

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Assistant - Stock Saarthi">
+    <title>AI Assistant - Stock Saarthi</title>
+    <link rel="stylesheet" href="website.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* AI Chat Specific Styles */
+        .ai-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .ai-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .ai-header h1 {
+            color: var(--primary-color);
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .dark-mode .ai-header h1 {
+            color: var(--text-light);
+        }
+
+        .ai-header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .chat-container {
+            background: var(--card-light);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-light);
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dark-mode .chat-container {
+            background: var(--card-dark);
+            border-color: var(--border-dark);
+        }
+
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: var(--border-radius);
+            min-height: 300px;
+        }
+
+        .dark-mode .messages-area {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .message {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .message.user .message-avatar {
+            background: var(--gradient-primary);
+        }
+
+        .message.ai .message-avatar {
+            background: var(--gradient-accent);
+        }
+
+        .message-content {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius-lg);
+            max-width: 70%;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+
+        .dark-mode .message-content {
+            background: var(--card-dark);
+            border-color: var(--border-dark);
+        }
+
+        .message.user .message-content {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .message.ai .message-content {
+            background: #f8f9fa;
+        }
+
+        .dark-mode .message.ai .message-content {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .input-area {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--border-light);
+            border-radius: var(--border-radius-lg);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: white;
+            resize: vertical;
+            min-height: 60px;
+            max-height: 120px;
+        }
+
+        .dark-mode .message-input {
+            background: var(--card-dark);
+            border-color: var(--border-dark);
+            color: var(--text-light);
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(12, 95, 136, 0.1);
+        }
+
+        .send-button {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius-lg);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            height: 60px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 3px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body class="light-mode">
+
+        .dark-mode .box {
+            background-color: var(--card-dark);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .title,
+        .dark-mode .label {
+            color: var(--text-light) !important;
+        }
+
+        .dark-mode .input {
+            background-color: var(--card-dark);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .button.is-primary {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        /* Add these navigation styles at the top of your existing styles */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-light);
+        }
+
+        .navbar-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .navbar-item {
+            color: var(--text-light) !important;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile navigation */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                background: var(--primary-color);
+                padding: 1rem;
+                box-shadow: var(--shadow);
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar-menu.active {
+                display: flex;
+            }
+
+            .navbar-item {
+                width: 100%;
+                padding: 0.75rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                color: var(--text-light) !important;
+            }
+
+            .mobile-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: var(--text-light);
+                font-size: 1.5rem;
+                cursor: pointer;
+                padding: 0.5rem;
+            }
+
+            .navbar-brand {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 1rem;
+            }
+
+            .dark-mode .navbar-menu {
+                background: var(--background-dark);
+            }
+        }
+
+        /* Hide mobile toggle on desktop */
+        @media (min-width: 769px) {
+            .mobile-toggle {
+                display: none;
+            }
+            
+            .navbar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        /* Chat specific styles */
+        .message-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        .message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .tag {
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .input {
+            background-color: #f4f0f0;
+            color: #000000;
+            transition: all 0.3s ease;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .dark-mode .input {
+            background-color: #333;
+            color: #f6f3f3;
+            border: 1px solid #555;
+        }
+
+        .button.is-primary {
+            width: 100%;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .button.is-primary {
+            background-color: #555;
+            color: #ffffff;
+        }
+
+        .box {
+            background-color: #ffffff;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .dark-mode .box {
+            background-color: #1e1e1e;
+            color: #8f8585;
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
+            .column {
+                width: 100% !important;
+                padding: 10px;
+            }
+            .box {
+                padding: 15px;
+            }
+        }
+
+        /* Dark mode styles */
+        .dark-mode .message-container {
+            background-color: var(--background-dark);
+        }
+
+        .dark-mode .message {
+            background-color: var(--card-dark);
+            color: var(--text-light);
+        }
+
+        .dark-mode .box {
+            background-color: var(--background-dark);
+            color: var (--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .title,
+        .dark-mode .label {
+            color: var(--text-light);
+        }
+
+        .dark-mode .input {
+            background-color: var(--card-dark);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .button.is-primary {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        /* Add these footer styles to your existing styles */
+        footer {
+            background: var(--background-dark);
+            color: var(--text-light);
+            padding: 2rem;
+            margin-top: auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            margin-top: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 0 1rem;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:last-child {
+            border-right: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .dark-mode .footer-links a {
+            color: var(--text-light);
+        }
+
+        .dark-mode .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Critical mobile navigation styles */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                background: inherit;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+                z-index: 100;
+            }
+            
+            .navbar-menu.active {
+                display: flex;
+            }
+            
+            .navbar-item {
+                padding: 0.75rem 0;
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* Update navbar styles to align center-left */
+        .navbar-menu {
+            justify-content: flex-start;
+        }
+        
+        .navbar-item {
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-item i {
+            margin-right: 8px;
+        }
+        
+        /* Ensure mobile menu keeps left alignment */
+        @media (max-width: 768px) {
+            .navbar-menu.active {
+                align-items: flex-start;
+            }
+            
+            .navbar-item {
+                text-align: left;
+                padding-left: 2rem; /* Adds more left padding on mobile */
+            }
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-chart-line fa-2x"></i>
+            <span>STOCK SAARTHI</span>
+            <button class="mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <div class="navbar-menu">
+            <a href="index.html" class="navbar-item">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="index.html#stocks-section" class="navbar-item">
+                <i class="fas fa-chart-bar"></i> Stocks
+            </a>
+            <a href="index.html#mutual-funds-section" class="navbar-item">
+                <i class="fas fa-hand-holding-usd"></i> Mutual Funds
+            </a>
+            <a href="AI.html" class="navbar-item">
+                <i class="fas fa-robot"></i> AI Assistant
+            </a>
+            <a href="profile.html" class="navbar-item">
+                <i class="fas fa-wallet"></i> Wallet
+            </a>
+            <button id="theme-toggle" class="navbar-item">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Chat Application -->
+    <div id="app">
+    <section class="section">
+        <div class="container">
+            <h1 class="title">AI Assistant</h1>
+            <div class="columns">
+                <div class="column is-12">
+                    <div class="box">
+                        <div class="message-container">
+                            <div class="message" v-for="(message, index) in messages" :key="index">
+                                <span class="tag is-info" v-if="message.sender === 'user'">You</span>
+                                <span class="tag is-warning" v-if="message.sender === 'rishabh'">Rishabh</span>
+                                <span>{{ message.text }}</span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Message</label>
+                            <div class="control">
+                                <input class="input" type="text" v-model="newMessage" @keyup.enter="sendMessage" placeholder="Type your message...">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-primary" @click="sendMessage">Send Message</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Stock Saarthi. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="aboutus.html">About Us</a>
+            <a href="contactUS.html">Contact Us</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+        <div class="social-links">
+            <a href="mailto:rishabharaj321@gmail.com" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-envelope"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/rishabharaj-sharma-57a7a8256" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://www.instagram.com/eclipsor_rishabh?igsh=dGM2NXJ0YWxzOGpy" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        const geminiApiKey = 'AIzaSyCKhPC6zO7F-0hA2cvwIdpy1oU7V3wKJoU';
+        
+        new Vue({
+            el: '#app',
+            data: {
+                messages: [],
+                newMessage: '',
+                errorMessage: ''
+            },
+            methods: {
+                async sendMessage() {
+                    if (!this.newMessage.trim()) return;
+                    
+                    const message = {
+                        sender: 'user',
+                        text: this.newMessage
+                    };
+                    this.messages.push(message);
+                    this.newMessage = '';
+                    
+                    const thinkingIndex = this.messages.length;
+                    this.messages.push({
+                        sender: 'rishabh',
+                        text: 'Thinking...'
+                    });
+                    
+                    try {
+                        const response = await axios.post(
+                            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`,
+                            {
+                                contents: [{
+                                    parts: [{ text: message.text }]
+                                }]
+                            }
+                        );
+                        
+                        if (response.data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+                            let rishabhMessage = response.data.candidates[0].content.parts[0].text;
+                            this.messages.splice(thinkingIndex, 1, {
+                                sender: 'rishabh',
+                                text: rishabhMessage.trim()
+                            });
+                        } else {
+                            this.messages.splice(thinkingIndex, 1);
+                            this.messages.push({
+                                sender: 'rishabh',
+                                text: 'Sorry, I could not process your request at the moment.'
+                            });
+                        }
+                    } catch (error) {
+                        this.messages.splice(thinkingIndex, 1);
+                        this.messages.push({
+                            sender: 'rishabh',
+                            text: 'Sorry, I encountered an error while processing your request.'
+                        });
+                    }
+                }
+            }
+        });
+
+        // Theme Toggle Script - copied from index.html
+        const themeToggle = document.getElementById('theme-toggle');
+
+        // Check for saved theme in localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.body.className = savedTheme;
+            updateButtonText();
+        }
+
+        // Add click event listener to toggle button
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            document.body.classList.toggle('light-mode');
+
+            // Save the current theme in localStorage
+            const currentTheme = document.body.className;
+            localStorage.setItem('theme', currentTheme);
+
+            updateButtonText();
+        });
+
+        // Update button text based on current theme
+        function updateButtonText() {
+            if (document.body.classList.contains('dark-mode')) {
+                themeToggle.textContent = '☀️ Light Mode';
+                themeToggle.classList.add('dark');
+            } else {
+                themeToggle.textContent = '🌙 Dark Mode';
+                themeToggle.classList.remove('dark');
+            }
+        }
+
+        // Mobile Navigation Script
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const navbarMenu = document.querySelector('.navbar-menu');
+
+        mobileToggle.addEventListener('click', () => {
+            navbarMenu.classList.toggle('active');
+            const isExpanded = navbarMenu.classList.contains('active');
+            mobileToggle.setAttribute('aria-expanded', isExpanded);
+            
+            const icon = mobileToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.navbar') && navbarMenu.classList.contains('active')) {
+                navbarMenu.classList.remove('active');
+                mobileToggle.setAttribute('aria-expanded', false);
+                mobileToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768 && navbarMenu.classList.contains('active')) {
+                navbarMenu.classList.remove('active');
+                mobileToggle.setAttribute('aria-expanded', false);
+                mobileToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
+            }
+        });
+    </script>
+</body>
+</html>
