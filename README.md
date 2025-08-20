@@ -79,5 +79,5 @@ Stock Saarthi is an innovative web-based platform that combines traditional stoc
 
 ---
 
-**Contact:** rishabharaj321@gmail.com  
+**Contact:** rishabharaj4you@gmail.com  
 **Connect:** [LinkedIn](https://www.linkedin.com/in/rishabharaj-sharma-57a7a8256) | [Instagram](https://www.instagram.com/eclipsor_rishabh)
