@@ -42,52 +42,8 @@ body {
     text-decoration: none;
   }
 
-  .mobile-toggle {
-    display: none;
-    background: none;
-    border: none;
-    color: var(--text-light);
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0.5rem;
-}
-
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-
-/* Update your existing media query */
-@media (max-width: 768px) {
-    .mobile-toggle {
-        display: block;
-    }
-
-    .navbar-menu {
-        display: none;
-        width: 100%;
-        flex-direction: column;
-        padding: 1rem 0;
-    }
-
-    .navbar-menu.show {
-        display: flex;
-    }
-
-    .navbar-item {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        text-align: left;
-    }
-
-    .navbar-brand {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-}
+/* Keep page-specific utilities only; navbar layout is controlled by website.css */
+/* Navbar/menu styling intentionally omitted to use canonical rules from website.css */
 
 .funds-container {
     display: grid;

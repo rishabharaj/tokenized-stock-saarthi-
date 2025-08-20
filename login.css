@@ -16,13 +16,19 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   min-height: 100vh;
+  padding: 0;
+}
+
+/* Center only the auth area so global elements (navbar/footer) keep normal flow */
+.auth-page {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
+  min-height: calc(100vh - 160px); /* leave space for navbar/footer */
 }
 
-.login-form {
+.login-form,
+.form-card {
   background: white;
   padding: 2.5rem;
   border-radius: 12px;
@@ -68,18 +74,7 @@ input:focus {
   outline: none;
 }
 
-button {
-  width: 100%;
-  padding: 1rem;
-  background: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
+
 
 button:hover {
   background-color: #094c6a;

@@ -1,0 +1,11 @@
+/* Profile Page Specific Styles */
+.container.profile-shell { max-width: 800px; margin: 80px auto; padding: 2rem; background: var(--background-light); border-radius:12px; box-shadow: var(--shadow); transition: all .3s ease; }
+.dark-mode .profile-shell { background: var(--card-dark); color: var(--text-light); }
+button#connectBtn, button#getBalanceBtn { padding:10px 20px; margin:10px; border-radius:5px; border:none; background:var(--primary-color); color:#fff; cursor:pointer; transition:.3s; }
+.dark-mode button#connectBtn, .dark-mode button#getBalanceBtn { background: var(--secondary-color); }
+#result { margin-top:20px; padding:15px; border-radius:5px; background: rgba(0,0,0,.05); }
+.dark-mode #result { background: rgba(255,255,255,.1); color: var(--text-light); }
+
+
+/* ensure navbar items align like index page */
+.navbar-menu { display:flex; justify-content:flex-end; gap:1.5rem; }

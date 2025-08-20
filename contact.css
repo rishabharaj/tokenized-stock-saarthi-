@@ -1,0 +1,7 @@
+/* Contact Page Specific Styles */
+.support-form-section { max-width:600px; margin:2rem auto; padding:2rem; background: var(--background-light); border-radius:8px; box-shadow: var(--shadow); }
+.dark-mode .support-form-section { background: var(--card-dark); }
+.faq-section { max-width:800px; margin:3rem auto; padding:2rem; background: var(--background-light); border-radius:8px; box-shadow: var(--shadow); }
+.dark-mode .faq-section { background: var(--card-dark); }
+.faq-item { margin-bottom:1.5rem; padding:1rem; border-bottom:1px solid rgba(0,0,0,0.1); }
+.dark-mode .faq-item { border-bottom-color: var(--border-color-dark); }

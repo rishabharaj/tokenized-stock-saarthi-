@@ -1,0 +1,5 @@
+/* About Us Page Specific Styles */
+.content-section { max-width: 1200px; margin: 80px auto 20px; padding: 20px; min-height: calc(100vh - 200px); }
+.text-container { background: var(--background-light); border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); }
+.dark-mode .text-container { background: var(--card-dark); }
+@media (max-width: 768px){ .content-section { margin:60px auto 20px; padding:15px; } }

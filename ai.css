@@ -1,0 +1,46 @@
+/* AI Assistant Page Specific Styles */
+.message-container { max-height: 400px; overflow-y:auto; margin-bottom:1rem; }
+.message { padding:10px; border-radius:6px; margin-bottom:10px; background: var(--background-alt); }
+.dark-mode .message { background: var(--background-dark-alt); }
+
+/* AI Page Specific Styles extracted from AI.html */
+:root {
+  --primary-color: #0c5f88;
+  --secondary-color: #2a9d8f;
+  --background-light: #ffffff;
+  --background-dark: #1a1a1a;
+  --card-dark: #2c2c2c;
+  --text-light: #ffffff;
+  --text-dark: #333333;
+  --shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+body { transition: background-color .3s ease, color .3s ease; }
+.dark-mode { background-color: var(--background-dark); color: var(--text-light); }
+/* Use global navbar styles from website.css to keep navbar consistent across pages.
+  Removed page-specific navbar overrides to avoid conflicting layout/visuals. */
+.message-container { max-height:400px; overflow-y:auto; margin-bottom:1rem; }
+.message { padding:10px; border-radius:5px; margin-bottom:10px; transition:background-color .3s ease; }
+.tag { font-weight:bold; margin-right:.5rem; }
+.input { background-color:#f4f0f0; color:#000; transition:.3s ease; width:100%; padding:10px; font-size:16px; }
+.dark-mode .input { background-color:#333; color:#f6f3f3; border:1px solid #555; }
+.button.is-primary { width:100%; font-size:16px; transition:.3s ease; }
+.dark-mode .button.is-primary { background-color:#555; color:#fff; }
+.box { background-color:#fff; transition:background-color .3s ease; width:100%; }
+.dark-mode .box { background-color:#1e1e1e; color:#8f8585; }
+
+
+@media screen and (max-width:768px){ .column{width:100%!important; padding:10px;} .box{padding:15px;} }
+.dark-mode .message-container { background-color:var(--background-dark); }
+.dark-mode .message { background-color:var(--card-dark); color:var(--text-light); }
+.dark-mode .box { background-color:var(--background-dark); color:var(--text-light); border:1px solid rgba(255,255,255,.1); }
+
+footer { background:var(--background-dark); color:var(--text-light); padding:2rem; margin-top:auto; text-align:center; }
+.footer-links { margin-top:1rem; }
+.footer-links a { color:var(--text-light); text-decoration:none; padding:0 1rem; border-right:1px solid rgba(255,255,255,.2); transition:color .3s; }
+.footer-links a:last-child { border-right:none; }
+.footer-links a:hover { color:var(--secondary-color); }
+.dark-mode .footer-links a { color:var(--text-light); }
+.dark-mode .footer-links a:hover { color:var(--secondary-color); }
+
+/* ensure navbar items align like index page */
+.navbar-menu { display:flex; justify-content:flex-end; gap:1.5rem; }

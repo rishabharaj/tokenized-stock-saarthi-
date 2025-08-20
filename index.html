@@ -10,140 +10,85 @@
 </head>
 <body class="light-mode">
     
-    <!-- navigation -->
-    <nav class="navbar">
-        <div class="navbar-brand">
-            <i class="fas fa-chart-line fa-2x"></i>
-            <span>STOCK SAARTHI</span>
-            <button class="mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
-                <i class="fas fa-bars"></i>
-            </button>
+        <!-- Canonical Navbar -->
+        <nav class="navbar" role="navigation" aria-label="Primary">
+            <div class="navbar-brand">
+                <i class="fas fa-chart-line fa-2x" aria-hidden="true"></i>
+                <span>STOCK SAARTHI</span>
+                <button class="mobile-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="navbar-menu">
+                <a href="index.html" class="navbar-item"><i class="fas fa-home"></i> Home</a>
+                <a href="index.html#stocks-section" class="navbar-item"><i class="fas fa-chart-bar"></i> Stocks</a>
+                <a href="index.html#mutual-funds-section" class="navbar-item"><i class="fas fa-hand-holding-usd"></i> Mutual Funds</a>
+                <a href="AI.html" class="navbar-item"><i class="fas fa-robot"></i> AI Assistant</a>
+                <a href="profile.html" class="navbar-item"><i class="fas fa-wallet"></i> Wallet</a>
+                <a href="login.html" class="navbar-item"><i class="fas fa-sign-in-alt"></i> Login</a>
+                
+            </div>
+        </nav>
+
+    <!-- Hero / Intro -->
+    <header class="hero" role="banner">
+        <div class="hero-content container">
+            <h1>Invest Smarter with Tokenized Assets & AI Guidance</h1>
+            <p class="lead">Real-time market intelligence, blockchain-backed tokenization, and an AI assistant—built to elevate how you trade and manage wealth.</p>
+            <div class="stack" style="--stack-gap:1.25rem;">
+                <div class="search-bar-wrapper" role="search">
+                    <i class="fas fa-search search-bar-icon" aria-hidden="true"></i>
+                    <input id="stock-filter" type="text" class="search-bar" placeholder="Search stocks by name or symbol..." aria-label="Search stocks" />
+                </div>
+                <div class="flex" style="gap:.75rem; flex-wrap:wrap;">
+                    <a href="#mutual-funds-section" class="btn btn-secondary btn-glow"><i class="fas fa-hand-holding-usd"></i> Explore Mutual Funds</a>
+                    <a href="AI.html" class="btn btn-outline"><i class="fas fa-robot"></i> Ask AI</a>
+                </div>
+            </div>
         </div>
-        <div class="navbar-menu">
-            <a href="index.html" class="navbar-item">
-                <i class="fas fa-home"></i> Home
-            </a>
-            <a href="index.html#stocks-section" class="navbar-item">
-                <i class="fas fa-chart-bar"></i> Stocks
-            </a>
-            <a href="index.html#mutual-funds-section" class="navbar-item">
-                <i class="fas fa-hand-holding-usd"></i> Mutual Funds
-            </a>
-            <a href="AI.html" class="navbar-item">
-                <i class="fas fa-robot"></i> AI Assistant
-            </a>
-            <a href="profile.html" class="navbar-item">
-                <i class="fas fa-wallet"></i> Wallet
-            </a>
-            <a href="login.html" class="navbar-item">
-                <i class="fas fa-sign-in-alt"></i> Login
-            </a>
-            <button id="theme-toggle" class="navbar-item">
-                <i class="fas fa-moon"></i>
-            </button>
-        </div>
-    </nav>
+    </header>
 
     <!-- Main Content -->
     <main>
-        <!-- Market Overview Section -->
-        <section class="market-overview">
-            <h2><i class="fas fa-chart-line"></i> Market Overview</h2>
-            <div class="market-stats">
-                <!-- Add your market statistics here -->
+        <section id="stocks-section" class="container">
+            <h2>Top Stocks</h2>
+            <div class="stocks-container" role="list" aria-live="polite">
+                <!-- Stock cards are populated by script.js; skeletons shown while loading -->
             </div>
         </section>
 
-        <h1>Explore Stocks</h1>
-        <div class="stocks-container">
-            <!-- Stock Cards -->
-            <div class="stock-card">
-                <h2>Apple Inc. (AAPL)</h2>
-                <p>Price: $172.38</p>
-                <p class="positive">+1.24%</p>
-                <button class="buy-button">Buy</button>
-            </div>
-            <div class="stock-card">
-                <h2>Tesla Inc. (TSLA)</h2>
-                <p>Price: $674.23</p>
-                <p class="negative">-2.16%</p>
-                <button class="buy-button">Buy</button>
-            </div>
-            <div class="stock-card">
-                <h2>Amazon.com (AMZN)</h2>
-                <p>Price: $123.45</p>
-                <p class="positive">+0.82%</p>
-                <button class="buy-button">Buy</button>
-            </div>
-            <div class="stock-card">
-                <h2>Tata Consultancy Services Limited</h2>
-                <p>Price: $350</p>
-                <p class="positive">+2.5%</p>
-                <button class="buy-button">Buy</button>
-            </div>
-            <div class="stock-card">
-                <h2>Reliance Industries Limited</h2>
-                <p>Price: $240</p>
-                <p class="negative">-1.2%</p>
-                <button class="buy-button">Buy</button>
-            </div>
-            <div class="stock-card">
-                <h2>Infosys Limited</h2>
-                <p>Price: $1700</p>
-                <p class="positive">+3.1%</p>
-                <button class="buy-button">Buy</button>
-            </div>
-            <div class="stock-card">
-                <h2>Reliance Industries Limited</h2>
-                <p>Price: $1450</p>
-                <p class="negative">-0.5%</p>
-                <button class="buy-button">Buy</button>
-            </div>
-        </div>
-
-        <!-- Mutual Funds Section -->
-        <section id="mutual-funds-section">
-            <h1>Explore Mutual Funds</h1>
-            <div class="funds-container">
-                <div class="fund-card">
-                    <h2>Motilal Oswal Midcap Fund</h2>
-                    <div class="fund-details">
-                        <p>Category: Mid Cap</p>
-                        <p>Risk: Moderately High</p>
-                        <p class="returns">Returns: 36.9% (3Y)</p>
-                        <p>Min Investment: ₹500</p>
-                    </div>
-                    <button class="invest-button">Invest Now</button>
-                </div>
-                <div class="fund-card">
-                    <h2>Quant Small Cap Fund</h2>
+        <section id="mutual-funds-section" class="container">
+            <h2>Mutual Funds</h2>
+            <div class="funds-container" role="list">
+                <div class="fund-card" role="listitem">
+                    <h3>Quant Small Cap Fund</h3>
                     <div class="fund-details">
                         <p>Category: Small Cap</p>
                         <p>Risk: High</p>
                         <p class="returns">Returns: 27.4% (3Y)</p>
                         <p>Min Investment: ₹1,000</p>
                     </div>
-                    <button class="invest-button">Invest Now</button>
+                    <button class="invest-button" type="button"><i class="fas fa-arrow-trend-up"></i> Invest Now</button>
                 </div>
-                <div class="fund-card">
-                    <h2>Parag Parikh Flexi Cap Fund</h2>
+                <div class="fund-card" role="listitem">
+                    <h3>Parag Parikh Flexi Cap Fund</h3>
                     <div class="fund-details">
                         <p>Category: Flexi Cap</p>
                         <p>Risk: Moderate</p>
                         <p class="returns">Returns: 17.5% (3Y)</p>
                         <p>Min Investment: ₹1,000</p>
                     </div>
-                    <button class="invest-button">Invest Now</button>
+                    <button class="invest-button" type="button"><i class="fas fa-arrow-trend-up"></i> Invest Now</button>
                 </div>
-                <div class="fund-card">
-                    <h2>Nippon India Large Cap Fund</h2>
+                <div class="fund-card" role="listitem">
+                    <h3>Nippon India Large Cap Fund</h3>
                     <div class="fund-details">
                         <p>Category: Large Cap</p>
                         <p>Risk: Moderate</p>
                         <p class="returns">Returns: 22.5% (3Y)</p>
                         <p>Min Investment: ₹500</p>
                     </div>
-                    <button class="invest-button">Invest Now</button>
+                    <button class="invest-button" type="button"><i class="fas fa-arrow-trend-up"></i> Invest Now</button>
                 </div>
             </div>
         </section>
@@ -172,70 +117,7 @@
         </div>
     </footer>
 
-    <script>
-        // Theme Toggle Script
-        const themeToggle = document.getElementById('theme-toggle');
-
-        // Check for saved theme in localStorage
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            document.body.className = savedTheme;
-            updateButtonText();
-        }
-
-        // Add click event listener to toggle button
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            document.body.classList.toggle('light-mode');
-
-            // Save the current theme in localStorage
-            const currentTheme = document.body.className;
-            localStorage.setItem('theme', currentTheme);
-
-            updateButtonText();
-        });
-
-        // Update button text based on current theme
-        function updateButtonText() {
-            if (document.body.classList.contains('dark-mode')) {
-                themeToggle.textContent = '☀️ Light Mode';
-                themeToggle.classList.add('dark');
-            } else {
-                themeToggle.textContent = '🌙 Dark Mode';
-                themeToggle.classList.remove('dark');
-            }
-        }
-
-        // Mobile Navigation Script
-        const mobileToggle = document.querySelector('.mobile-toggle');
-        const navbarMenu = document.querySelector('.navbar-menu');
-
-        mobileToggle.addEventListener('click', () => {
-            navbarMenu.classList.toggle('active');
-            const isExpanded = navbarMenu.classList.contains('active');
-            mobileToggle.setAttribute('aria-expanded', isExpanded);
-            
-            const icon = mobileToggle.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.navbar') && navbarMenu.classList.contains('active')) {
-                navbarMenu.classList.remove('active');
-                mobileToggle.setAttribute('aria-expanded', false);
-                mobileToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
-            }
-        });
-
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768 && navbarMenu.classList.contains('active')) {
-                navbarMenu.classList.remove('active');
-                mobileToggle.setAttribute('aria-expanded', false);
-                mobileToggle.querySelector('i').classList.replace('fa-times', 'fa-bars');
-            }
-        });
-    </script>
+    <!-- Inline scripts removed; handled by script.js -->
     <script src="script.js"></script>
 </body>
 </html>
